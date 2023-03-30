@@ -1,4 +1,7 @@
 
+import 'dart:io';
+
+import 'package:area_network_device_scanner/config/strings.dart';
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
 import 'package:area_network_device_scanner/utils/network_utils.dart';
 import 'package:dart_ping/dart_ping.dart';
@@ -30,7 +33,14 @@ class IpScanner{
 
   // 扫描指定IP地址
   static Future<PingResult> _isIpAccessible(String ip) async{
-    var res = await NetworkUtils.isAddressAccessibleByCmd(ip);
+    late var res;
+    switch(Platform.operatingSystem){
+      case Platforms.WINDOWS:
+        res = await NetworkUtils.isAddressAccessibleByCmd(ip);
+        break;
+      default:
+        res = await NetworkUtils.isAddressAccessible(ip);
+    }
     if (kDebugMode) {
       print("$ip : $res");
     }

@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 
 class ScannerState {
 
   String testStr = "";
-  Widget deviceListWidget = const Placeholder();
+  Widget deviceListWidget = Container();
+  RxInt deviceNum = 0.obs;
   int listIdx = 0;
 
   String arpCache = "";
@@ -14,7 +16,8 @@ class ScannerState {
   }
 
   refresh(){
-    deviceListWidget = const Placeholder();
+    deviceListWidget = Container();
+    deviceNum = 0.obs;
     listIdx = 0;
   }
 

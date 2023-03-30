@@ -10,20 +10,19 @@ import 'package:fast_gbk/fast_gbk.dart';
 
 class NetworkUtils {
   // 判断目标地址是否可达
-  static Future<PingResult> isAddressAccessible(String addr, {count = 3}) async {
+  static Future<PingResult> isAddressAccessible(String addr, {count = 4}) async {
     // ios预先注册
     if (Platform.isIOS) {
       DartPingIOS.register();
     }
     // 开始执行
     final Ping ping = Ping(addr, count: count, encoding: CodecUtils.getCodec());
-    return ping.stream.last
-        .then((value) => PingResult.parsePingData(addr, value))
-        .catchError((e)=>PingResult.failPing(addr));
+    List<PingData> dataList = await ping.stream.toList().catchError(()=>{[]});
+    return PingResult.parsePingDataList(addr, dataList);
   }
 
   // 通过命令行判断目标地址是否可达
-  static Future<PingResult> isAddressAccessibleByCmd(String addr, {count = 3}) async{
+  static Future<PingResult> isAddressAccessibleByCmd(String addr, {count = 4}) async{
     late PingResult res;
     late String pingRes;
     switch(Platform.operatingSystem){

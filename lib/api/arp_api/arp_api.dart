@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:area_network_device_scanner/config/strings.dart';
 import 'package:flutter/foundation.dart';
 
+import 'src/linux.dart';
 import 'src/win.dart';
 
 abstract class ArpGetter{
@@ -21,7 +22,7 @@ abstract class ArpGetter{
       //TODO
         break;
       case Platforms.LINUX:
-      //TODO
+        getter = LinuxArpGetter();
         break;
       default:
         break;

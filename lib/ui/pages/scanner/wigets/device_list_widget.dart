@@ -1,7 +1,9 @@
 import 'package:area_network_device_scanner/api/scan_ip_api/scan_ip_api.dart';
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
+import 'package:area_network_device_scanner/ui/pages/scanner/logic.dart';
 import 'package:area_network_device_scanner/utils/network_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DeviceList extends StatelessWidget {
   DeviceList(
@@ -11,9 +13,13 @@ class DeviceList extends StatelessWidget {
   final String start;
   final String end;
   bool isOn = false;
+  final state = Get
+      .find<ScannerLogic>()
+      .state;
 
   @override
   Widget build(BuildContext context) {
+
     return isOn
         ? ListView(
             children: _getDeviceList(start, end),
@@ -41,6 +47,11 @@ class DeviceList extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<PingResult> snapshot) {
         if (snapshot.hasData) {
           PingResult data = snapshot.data!;
+          if(data.isAccessible){
+            return _getDeviceCard(data);
+          }else{
+            return const SizedBox.shrink();
+          }
           return data.isAccessible?_getDeviceCard(data):const SizedBox.shrink();
         } else {
           return const SizedBox.shrink();

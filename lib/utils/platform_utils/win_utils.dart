@@ -12,14 +12,14 @@ class WinUtils{
 
   static PingResult parsePingRes(String addr, String pingStr){
     String? str1 = Regs.WIN_PING_RCVD.firstMatch(pingStr)!.group(0);
-    String? rcvdStr = Regs.NUM_REG.firstMatch(str1??"")!.group(0);
+    String? rcvdStr = Regs.NUM.firstMatch(str1??"")!.group(0);
     int rcvdNum =  int.parse(rcvdStr??"0");
     // 解析
-    int? rtt;
+    double? rtt;
     if(rcvdNum>0){
-      String? str2 = Regs.WIN_PING_TIME.firstMatch(pingStr)!.group(0);
-      String? rttStr = Regs.NUM_REG.firstMatch(str2??"")!.group(0);
-      rtt =  int.parse(rttStr??"0");
+      String? str2 = Regs.WIN_PING_RTT.firstMatch(pingStr)!.group(0);
+      String? rttStr = Regs.NUM.firstMatch(str2??"")!.group(0);
+      rtt =  double.parse(rttStr??"0");
     }
     return PingResult(addr, rcvdNum>0, rtt);
   }

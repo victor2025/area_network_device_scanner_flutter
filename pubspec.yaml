@@ -34,6 +34,7 @@ dependencies:
   dart_ping: ^8.0.0
   dart_ping_ios: ^3.0.0
   fast_gbk: ^1.0.0
+  fast_csv: ^0.1.44
 
 
   # The following adds the Cupertino Icons font to your application.

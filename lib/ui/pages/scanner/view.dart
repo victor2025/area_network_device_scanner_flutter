@@ -16,7 +16,8 @@ class ScannerPage extends StatelessWidget {
       ),
       body: ScannerBody(),
       floatingActionButton: FloatingActionButton(
-        onPressed: ()=>logic.startScan(),
+        onPressed: () => logic.startScan(),
+        child: const Icon(Icons.refresh),
       ),
     );
   }
@@ -27,11 +28,30 @@ class ScannerBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Get.find<ScannerLogic>().state;
-    return Container(
-      child: GetBuilder<ScannerLogic>(
-        builder: (context)=>state.deviceListWidget
-      )
+    final state = Get
+        .find<ScannerLogic>()
+        .state;
+    final logic = Get.put(ScannerLogic());
+    return Column(
+      children: [
+        Row(
+          children: [
+            IconButton(
+                onPressed: () => logic.clearDeviceList(),
+                icon: Icon(Icons.clear)
+            ),
+            Obx((){
+              return Text("device number: ${state.deviceNum.value}");
+            })
+          ],
+        ),
+
+        Expanded(
+            child: GetBuilder<ScannerLogic>(
+                builder: (context) => state.deviceListWidget
+            )
+        )
+      ],
     );
   }
 }

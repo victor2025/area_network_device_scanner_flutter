@@ -1,3 +1,4 @@
+import 'package:area_network_device_scanner/api/arp_api/arp_api.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/wigets/device_list_widget.dart';
 import 'package:get/get.dart';
 import 'state.dart';
@@ -9,9 +10,13 @@ class ScannerLogic extends GetxController {
   _getArpTable() {}
 
   startScan(){
-    state.refresh();
+    clearDeviceList();
+    state.deviceListWidget = DeviceList(isOn:true, start: "192.168.0.0", end:"192.168.0.110");
     update();
-    state.deviceListWidget = DeviceList(isOn:true, start: "113.54.148.0", end:"113.54.148.200");
+  }
+
+  clearDeviceList(){
+    state.refresh();
     update();
   }
 
