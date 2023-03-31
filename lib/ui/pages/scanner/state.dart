@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 class ScannerState {
 
   String testStr = "";
-  Widget deviceListWidget = Container();
+  List<Widget> deviceList = [];
   RxInt deviceNum = 0.obs;
   int listIdx = 0;
 
@@ -16,7 +16,7 @@ class ScannerState {
   }
 
   refresh(){
-    deviceListWidget = Container();
+    deviceList = [];
     deviceNum = 0.obs;
     listIdx = 0;
   }

@@ -12,19 +12,12 @@ class WinArpGetter extends ArpGetter{
 
   @override
   Future<Map<String, String>> loadArpAsMap() async{
-    Map<String,String> res = {};
     String arpStr = await loadArpAsString();
+    // 替换分隔符
+    arpStr = arpStr.replaceAll('-', ':');
     // 将字符串解析为map
-    _parseArpString(arpStr, res);
-    return res;
+    return parseArpCache(arpStr);
   }
-
-  _parseArpString(String str, Map<String,String> map){
-    map["0"] = str;
-  }
-
-
-
 
 
 }

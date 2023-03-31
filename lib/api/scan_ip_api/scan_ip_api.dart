@@ -4,9 +4,7 @@ import 'dart:io';
 import 'package:area_network_device_scanner/config/strings.dart';
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
 import 'package:area_network_device_scanner/utils/network_utils.dart';
-import 'package:dart_ping/dart_ping.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 
 class IpScanner{
 
