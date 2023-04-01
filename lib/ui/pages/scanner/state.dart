@@ -4,11 +4,11 @@ import 'package:get/get.dart';
 class ScannerState {
 
   String testStr = "";
+
   List<Widget> deviceList = [];
   RxInt deviceNum = 0.obs;
   int listIdx = 0;
-
-  String arpCache = "";
+  Map<String,String>? arpCache;
 
 
   ScannerState() {
@@ -19,6 +19,7 @@ class ScannerState {
     deviceList = [];
     deviceNum = 0.obs;
     listIdx = 0;
+    arpCache = {};
   }
 
 }
