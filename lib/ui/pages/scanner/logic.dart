@@ -1,28 +1,22 @@
-import 'package:area_network_device_scanner/utils/network_utils.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'logics/device_list_logic.dart';
+import 'logics/device_list_logic.dart' as device_list_logic;
+import 'logics/local_info_logic.dart' as local_info_logic;
 import 'state.dart';
 
 class ScannerLogic extends GetxController {
   final ScannerState state = ScannerState();
 
-  // 获取arp缓存
-  _getArpTable() {}
-
+  // 开始扫描
   startScan(){
     clearDeviceList();
-    scanIpRange("113.54.148.0", "113.54.148.168");
+    device_list_logic.scanIpRange();
     update();
   }
 
+  // 清除列表
   clearDeviceList(){
     state.refresh();
-    update();
-  }
-
-  testShow(String str) {
-    state.testStr = str;
+    local_info_logic.refreshLocalInfo();
     update();
   }
 

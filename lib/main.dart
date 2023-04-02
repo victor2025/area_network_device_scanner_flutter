@@ -1,7 +1,6 @@
 import 'package:area_network_device_scanner/ui/pages/scanner/view.dart';
 import 'package:flutter/material.dart';
 
-// TODO：设置统一返回值格式
 void main() {
   runApp(const MyApp());
 }

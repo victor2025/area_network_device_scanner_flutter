@@ -7,7 +7,7 @@ class FileLoader{
   static Future<String> loadFileAsString(String filepath) async{
     var file = File(filepath);
     String content = await file.readAsString(encoding: CodecUtils.getCodec())
-        .onError((error, stackTrace) => "");
+        .catchError((error, stackTrace) => "");
     return content;
   }
 

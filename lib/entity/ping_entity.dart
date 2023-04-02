@@ -1,31 +1,37 @@
 import 'package:dart_ping/dart_ping.dart';
 
-class PingResult{
+class PingResult {
   late String ip;
   late bool isAccessible;
   late double? rtt;
 
   PingResult(this.ip, this.isAccessible, this.rtt);
 
-  static PingResult successPing(String ip, double? rtt){
+  static PingResult successPing(String ip, double? rtt) {
     return PingResult(ip, true, rtt);
   }
 
-  static PingResult failPing(String ip){
+  static PingResult failPing(String ip) {
     return PingResult(ip, false, null);
   }
 
-  static PingResult parsePingDataList(String ip, List<PingData> dataList){
-    if(dataList.isNotEmpty&&dataList.last.summary!.received>0){
-      double rtt = 0;
-      for(int i = 0; i<dataList.length-1; i++){
-        rtt+=dataList[i].response!.time!.inMilliseconds;
+  static PingResult parsePingDataList(String ip, List<PingData> dataList) {
+    if(dataList.isEmpty)return PingResult.failPing(ip);
+    PingSummary? summary = dataList.last.summary;
+    if (summary!=null&&summary.received>0) {
+        double rtt = 0;
+        int rcvdCnt = 0;
+        for (int i = 0; i < dataList.length - 1; i++) {
+          int? currRtt = dataList[i].response?.time?.inMilliseconds;
+          if (currRtt != null) {
+            rtt += currRtt;
+            rcvdCnt++;
+          }
+        }
+        rtt /= rcvdCnt;
+        return successPing(ip, rtt);
       }
-      rtt/=(dataList.length-1);
-      return successPing(ip, rtt);
-    }else{
-      return failPing(ip);
-    }
+    return failPing(ip);
   }
 
   @override

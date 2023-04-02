@@ -1,3 +1,4 @@
+import 'package:area_network_device_scanner/ui/pages/scanner/views/local_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,13 +13,34 @@ class ScannerPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("test scanner"),
+        title: const ScannerAppBarTitle(),
       ),
-      body: ScannerBody(),
+      body: const ScannerBody(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => logic.startScan(),
         child: const Icon(Icons.refresh),
       ),
+    );
+  }
+}
+
+class ScannerAppBarTitle extends StatelessWidget {
+  const ScannerAppBarTitle({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Expanded(
+          flex: 2,
+          child: Text("test scanner"),
+        ),
+        Expanded(
+          flex: 3,
+          child:
+              GetBuilder<ScannerLogic>(builder: (context) => state.localInfo),
+        )
+      ],
     );
   }
 }
@@ -32,22 +54,26 @@ class ScannerBody extends StatelessWidget {
     final logic = Get.put(ScannerLogic());
     return Column(
       children: [
-        Row(
-          children: [
-            IconButton(
+        Container(
+          decoration: const BoxDecoration(color: Colors.black12),
+          child: Row(
+            children: [
+              IconButton(
                 onPressed: () => logic.clearDeviceList(),
-                icon: Icon(Icons.clear)),
-            Obx(() {
-              return Text("device number: ${state.deviceNum.value}");
-            })
-          ],
+                icon: const Icon(Icons.clear_rounded),
+                splashColor: Colors.black12,
+              ),
+            ],
+          ),
+        ),
+        const Divider(
+          height: 2,
         ),
         Expanded(
-              child: GetBuilder<ScannerLogic>(
-                  builder: (context) => ListView(
-                    children: state.deviceList,
-                  ))
-        ),
+            child: GetBuilder<ScannerLogic>(
+                builder: (context) => ListView(
+                      children: state.deviceList,
+                    ))),
       ],
     );
   }

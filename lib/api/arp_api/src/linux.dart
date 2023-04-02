@@ -1,7 +1,7 @@
 import 'package:area_network_device_scanner/api/arp_api/arp_api.dart';
 import 'package:area_network_device_scanner/utils/file_utils.dart';
 
-class LinuxArpGetter extends ArpGetter{
+class LinuxArpGetter extends ArpApi{
 
   static const String ARP_PATH = "/proc/net/arp";
 

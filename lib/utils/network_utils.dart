@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:area_network_device_scanner/config/strings.dart';
+import 'package:area_network_device_scanner/entity/mac_entity.dart';
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
 import 'package:area_network_device_scanner/utils/codec_utils.dart';
 import 'package:area_network_device_scanner/utils/platform_utils/win_utils.dart';
 import 'package:dart_ping/dart_ping.dart';
 import 'package:dart_ping_ios/dart_ping_ios.dart';
+import 'package:network_info_plus/network_info_plus.dart';
 
 class NetworkUtils {
   // 判断目标地址是否可达
@@ -15,7 +17,9 @@ class NetworkUtils {
     }
     // 开始执行
     final Ping ping = Ping(addr, count: count, encoding: CodecUtils.getCodec());
-    List<PingData> dataList = await ping.stream.toList().catchError(()=>{[]});
+    List<PingData> dataList = await ping.stream.toList()
+        .catchError((e)=>{print(e),[]},)
+        .timeout(const Duration(milliseconds: 30000));
     return PingResult.parsePingDataList(addr, dataList);
   }
 
@@ -29,50 +33,10 @@ class NetworkUtils {
         res = WinUtils.parsePingRes(addr, pingRes);
         break;
       default:
-        // TODO
         res = PingResult.failPing(addr);
         break;
     }
     return res;
-  }
-
-  // 将ip地址转换为数值形式
-  static int ip2num(String ip) {
-    List<int>? ipNumArr = parseIp(ip);
-    // 需要保证ip是合法的
-    int res = 0;
-    for (int num in ipNumArr!) {
-      res<<=8;
-      res|=num;
-    }
-    return res;
-  }
-
-  static String num2ip(int num) {
-    List<int> numArr = [];
-    for(int i = 0; i<4; i++){
-      int currNum = num&255;
-      num>>>=8;
-      numArr.insert(0, currNum);
-    }
-    return "${numArr[0]}.${numArr[1]}.${numArr[2]}.${numArr[3]}";
-  }
-
-  // 将ip地址解析为十进制数组
-  static List<int>? parseIp(String ip){
-    List<String> strList = ip.split('.');
-    if(strList.length!=4)return null;
-    List<int> res = [];
-    try{
-      for (String value in strList) {
-        int? currNum = int.tryParse(value);
-        if(currNum==null||currNum<0||currNum>255)return null;
-        res.add(currNum);
-      }
-      return res;
-    }catch(e) {
-      return null;
-    }
   }
 
 }

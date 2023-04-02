@@ -20,7 +20,7 @@ class WinUtils{
     if(rcvdNum>0){
       String? str2 = Regs.WIN_PING_RTT.firstMatch(pingStr)?.group(0);
       String? rttStr = RegExpUtils.getNum(str2??"");
-      rtt =  rttStr==null?double.infinity:double.parse(rttStr!);
+      rtt =  rttStr==null?double.infinity:double.parse(rttStr);
     }
     return PingResult(addr, rcvdNum>0, rtt);
   }

@@ -1,14 +1,22 @@
+import 'package:area_network_device_scanner/config/strings.dart';
+import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
+import 'package:area_network_device_scanner/utils/ip_utils.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
+import 'package:flutter/foundation.dart';
 
 class ScannerState {
 
-  String testStr = "";
-
+  // 本地信息
+  Widget localInfo = ConstWidgets.EMPTY;
+  String localIp = Status.UNKNOWN;
+  String localWifiName = Status.UNKNOWN;
+  // 设备列表
   List<Widget> deviceList = [];
-  RxInt deviceNum = 0.obs;
-  int listIdx = 0;
-  Map<String,String>? arpCache;
+  // 设备名称
+  int deviceNum = 0;
+  // arp缓存
+  Map<String,String> arpCache = {};
+
 
 
   ScannerState() {
@@ -17,9 +25,11 @@ class ScannerState {
 
   refresh(){
     deviceList = [];
-    deviceNum = 0.obs;
-    listIdx = 0;
+    deviceNum = 0;
     arpCache = {};
+    if (kDebugMode) {
+      print("state refreshed");
+    }
   }
 
 }

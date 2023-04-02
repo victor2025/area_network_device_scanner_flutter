@@ -1,18 +1,14 @@
 import 'package:area_network_device_scanner/api/arp_api/arp_api.dart';
+import 'package:area_network_device_scanner/api/arp_api/src/linux.dart';
 import 'package:area_network_device_scanner/utils/command_run_utils.dart';
 
-class WinArpGetter extends ArpApi{
-
-  static const String ARP_CMD = "arp -a";
-
-
+class AndroidArpGetter extends ArpApi{
+  static const String ARP_CMD = "ip neigh";
+  static const String ARP_PATH = LinuxArpGetter.ARP_PATH;
 
   @override
   Future<Map<String, String>> loadArpAsMap() async{
     String arpStr = await loadArpAsString();
-    // 替换分隔符
-    arpStr = arpStr.replaceAll('-', ':');
-    // 将字符串解析为map
     return parseArpCache(arpStr);
   }
 

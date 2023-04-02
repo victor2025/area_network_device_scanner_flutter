@@ -5,27 +5,27 @@ import 'package:area_network_device_scanner/config/strings.dart';
 import 'package:area_network_device_scanner/utils/reg_exp_utils.dart';
 import 'package:flutter/foundation.dart';
 
+import 'src/android.dart';
 import 'src/linux.dart';
 import 'src/win.dart';
 
-abstract class ArpGetter{
+abstract class ArpApi{
 
-  static final ArpGetter _getter = _initGetter();
+  static final ArpApi _getter = _initGetter();
+  static Map<String,String>? _arpCache;
 
   // 初始化getter
-  static ArpGetter _initGetter(){
-    late ArpGetter getter;
+  static ArpApi _initGetter(){
+    late ArpApi getter;
     switch (Platform.operatingSystem){
       case Platforms.WINDOWS:
         getter = WinArpGetter();
         break;
       case Platforms.ANDROID:
-      //TODO
-        break;
-      case Platforms.LINUX:
-        getter = LinuxArpGetter();
+        getter = AndroidArpGetter();
         break;
       default:
+        getter = LinuxArpGetter();
         break;
     }
     if (kDebugMode) {
@@ -36,9 +36,20 @@ abstract class ArpGetter{
 
   // 从本地读取arp缓存
   static Future<Map<String,String>> loadArpCache() async{
-    return await _getter.loadArpAsMap();
+    _arpCache =  await _getter.loadArpAsMap();
+    if (kDebugMode) {
+      print("arp cache has been loaded");
+    }
+    return _arpCache!;
   }
 
+  // 获取arp表格
+  static Future<Map<String,String>> getArpCache() async{
+    if(_arpCache==null){
+      await loadArpCache();
+    }
+    return _arpCache!;
+  }
 
   // 以字符串形式读取arp缓存
   Future<String> loadArpAsString();
