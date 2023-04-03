@@ -22,7 +22,8 @@ class PingResult {
         double rtt = 0;
         int rcvdCnt = 0;
         for (int i = 0; i < dataList.length - 1; i++) {
-          int? currRtt = dataList[i].response?.time?.inMilliseconds;
+          final PingData currData = dataList[i];
+          int? currRtt = currData.response?.time?.inMilliseconds;
           if (currRtt != null) {
             rtt += currRtt;
             rcvdCnt++;

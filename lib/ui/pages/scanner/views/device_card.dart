@@ -10,9 +10,43 @@ final state = Get.find<ScannerLogic>().state;
 const TextStyle titleStyle = TextStyle(fontSize: 12, color: Colors.grey);
 const TextAlign titleAlign = TextAlign.right;
 const TextStyle contentStyle = TextStyle(fontSize: 12);
+const EdgeInsets cardMargin = EdgeInsets.fromLTRB(6, 2, 6, 2);
+
+
+Widget getIndexedDeviceCard(PingResult res, int ind){
+  var index = Container(
+    padding: EdgeInsets.only(left: 10),
+    child: Text("$ind",
+      style: const TextStyle(fontWeight: FontWeight.bold),
+      textAlign: TextAlign.center,
+    ),
+  );
+  return Card(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4))),
+      elevation: 20,
+      margin: cardMargin,
+      child: Row(
+        children: [
+          index,
+          Expanded(child: _getCardContent(res),)
+        ],
+      )
+  );
+}
 
 Widget getDeviceCard(PingResult res) {
 
+  return Card(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4))),
+      elevation: 20,
+      margin: cardMargin,
+      child: _getCardContent(res),
+  );
+}
+
+Widget _getCardContent(PingResult res){
   // ip
   var ipRow = ListTile(
     title: const Text("Ip Address:", style: titleStyle),
@@ -28,31 +62,26 @@ Widget getDeviceCard(PingResult res) {
     ],
   );
 
-  return Card(
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4))),
-      elevation: 20,
-      margin: const EdgeInsets.all(4),
-      child:Row(
-        children: [
-          Expanded(
-            flex: 3 ,
-            child: ipRow,
-          ),
-          Expanded(
-            flex: 4,
-            child:Column(
-              children: [
-                delayRow,
-                _getMacInfoFutureBuilder(res.ip),
-              ],
-            )
-          ),
-        ],
+  return Row(
+    children: [
+      Expanded(
+        flex: 3 ,
+        child: ipRow,
       ),
+      Expanded(
+          flex: 4,
+          child:Column(
+            children: [
+              delayRow,
+              _getMacInfoFutureBuilder(res.ip),
+            ],
+          )
+      ),
+    ],
   );
 }
 
+// 获取mac信息
 FutureBuilder<MacResult> _getMacInfoFutureBuilder(String ip){
   return FutureBuilder<MacResult>(
     future: MacApi.getMacResultByIp(ip),

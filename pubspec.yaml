@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # logic
   http: ^0.13.5
   get: ^4.3.8
   dart_ping: ^8.0.0
@@ -37,6 +39,9 @@ dependencies:
   fast_gbk: ^1.0.0
   fast_csv: ^0.1.44
   network_info_plus: ^3.0.2
+
+  # view
+  flutter_speed_dial: 6.2.0
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:area_network_device_scanner/api/arp_api/arp_api.dart';
 import 'package:area_network_device_scanner/entity/mac_entity.dart';
 import 'package:area_network_device_scanner/utils/http_utils.dart';
+import 'package:area_network_device_scanner/utils/rand_utils.dart';
 import 'package:http/http.dart' as http;
 
 class MacApi{
@@ -26,7 +25,9 @@ class MacApi{
     // 生成url
     String url = _getMacQueryUrl(data);
     // 发起请求
-    String? respBody = await _queryUrlForName(url);
+    String? respBody = await _queryUrlForName(url)
+        .timeout(const Duration(milliseconds: 15000))
+        .onError((error, stackTrace) => null);
     // 解析respBody
     _parseRespBody(data,respBody);
     return data;
@@ -37,6 +38,9 @@ class MacApi{
     if(resp.statusCode==HttpUtils.STATUS_OK){
       return resp.body;
     }else if(resp.statusCode == HttpUtils.STATUS_TOO_MANY_REQUESTS){
+      // 等待一段时间后重新发送请求
+      await Future
+          .delayed(Duration(milliseconds: RandUtils.randRange(500, 3000)));
       return await _queryUrlForName(url);
     }
     return "errors";

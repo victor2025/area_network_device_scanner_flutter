@@ -24,6 +24,7 @@ class IpUtils{
   static int ip2num(String ip) {
     List<int>? ipNumArr = parseIp(ip);
     // 需要保证ip是合法的
+    if(ipNumArr==null)return ip2num("255.255.255.255");
     int res = 0;
     for (int num in ipNumArr!) {
       res<<=8;
@@ -40,6 +41,22 @@ class IpUtils{
     numArr.insert(0, currNum);
     }
     return "${numArr[0]}.${numArr[1]}.${numArr[2]}.${numArr[3]}";
+  }
+
+  static bool isRangeValid(String start, String end){
+    int startNum = IpUtils.ip2num(start);
+    int endNum = IpUtils.ip2num(end);
+    return startNum<=endNum;
+  }
+
+  static String getAreaStart(String ip){
+    int lastIdx = ip.lastIndexOf(".");
+    return "${ip.substring(0,lastIdx)}.0";
+  }
+
+  static String getAreaEnd(String ip){
+    int lastIdx = ip.lastIndexOf(".");
+    return "${ip.substring(0,lastIdx)}.255";
   }
 
   // 将ip地址解析为十进制数组

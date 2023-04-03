@@ -1,5 +1,8 @@
+import 'package:area_network_device_scanner/ui/pages/scanner/views/input_bar.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/views/local_info.dart';
+import 'package:area_network_device_scanner/ui/pages/scanner/views/status_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 
 import 'logic.dart';
@@ -10,17 +13,21 @@ class ScannerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(ScannerLogic());
+    final state = logic.state;
+    // 刷新列表
+    logic.refreshDeviceList();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const ScannerAppBarTitle(),
-      ),
-      body: const ScannerBody(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => logic.startScan(),
-        child: const Icon(Icons.refresh),
-      ),
-    );
+        appBar: AppBar(
+          title: const ScannerAppBarTitle(),
+        ),
+        body: const ScannerBody(),
+        floatingActionButton: GetBuilder<ScannerLogic>(builder: (logic) {
+          return FloatingActionButton(
+            onPressed: state.isScanning ? () => {} : () => logic.startScan(),
+            child: const Icon(Icons.refresh),
+          );
+        }));
   }
 }
 
@@ -29,6 +36,7 @@ class ScannerAppBarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final state = Get.find<ScannerLogic>().state;
     return Row(
       children: [
         const Expanded(
@@ -50,30 +58,17 @@ class ScannerBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Get.find<ScannerLogic>().state;
-    final logic = Get.put(ScannerLogic());
+    final logic = Get.find<ScannerLogic>();
+    final state = logic.state;
     return Column(
       children: [
-        Container(
-          decoration: const BoxDecoration(color: Colors.black12),
-          child: Row(
-            children: [
-              IconButton(
-                onPressed: () => logic.clearDeviceList(),
-                icon: const Icon(Icons.clear_rounded),
-                splashColor: Colors.black12,
-              ),
-            ],
-          ),
-        ),
+        getStatusBar(context),
         const Divider(
           height: 2,
         ),
         Expanded(
             child: GetBuilder<ScannerLogic>(
-                builder: (context) => ListView(
-                      children: state.deviceList,
-                    ))),
+                builder: (context) => state.deviceListView)),
       ],
     );
   }

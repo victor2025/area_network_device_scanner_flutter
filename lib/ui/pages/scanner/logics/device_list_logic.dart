@@ -10,23 +10,13 @@ import 'package:get/get.dart';
 
 final state = Get.find<ScannerLogic>().state;
 
-// 扫描IP范围吗，并生成列表
-void scanIpRange() async{
-  // 尝试获取本地ip
-  late String ip;
-  if(state.localIp==Status.UNKNOWN){
-    LocalInfo info = await IpUtils.getLocalInfo();
-    state.localIp = info.ip;
-  }
-  // 若仍无法获取，则采用默认ip
-  ip = state.localIp;
-  if(ip==Status.UNKNOWN){
-    ip = Status.DEF_IP;
-  }
+// 异步扫描IP范围，并生成列表
+void scanIpRangeAsync() async{
+  String ip = state.getLocalIp();
   // 开始扫描
   List<Widget> list = state.deviceList;
   // 读取arp表
-  refreshArpCache();
+  state.refreshArpCache();
   // 将起止ip转为数字
   int startNum = IpUtils.ip2num(ip)&IpUtils.ip2num("255.255.255.0");
   int endNum = startNum+255;
@@ -35,9 +25,4 @@ void scanIpRange() async{
   for (int i = startNum; i <= endNum; i++) {
     list.add(getPingFutureBuilder(IpUtils.num2ip(i)));
   }
-}
-
-// 刷新arp列表
-void refreshArpCache() async{
-  state.arpCache = await ArpApi.loadArpCache();
 }
