@@ -9,7 +9,10 @@ import 'device_card.dart';
 
 final state = Get.find<ScannerLogic>().state;
 
-ListView getDeviceListView(List<PingResult> results) {
+Widget getDeviceListView(List<PingResult> results) {
+  // 若为空，则返回empty
+  if(results.isEmpty)return ConstWidgets.EMPTY_TEXT;
+  // 若不为空，则返回结果
   List<Widget> list = state.deviceList;
   for (var data in results) {
     if (data.isAccessible && data.ip != state.localIp) {

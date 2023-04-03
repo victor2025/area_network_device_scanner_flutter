@@ -49,9 +49,9 @@ class SendCommentPage extends StatelessWidget {
               controller: logic.inputController,
               cursorColor: Colors.black,
               decoration: InputDecoration(
-                hintText: "Input ip or ip range you want.\n"
-                    "For example: '192.168.1.1-192.168.1.255, 172.30.1.1'.\n"
-                    "Default: area range of ${state.getLocalIp()}",
+                hintText: "Input ip or ip range you want, and split with commas.\n"
+                    "For example: \"192.168.1.1-192.168.1.255, 172.30.1.1\".\n"
+                    "Current default: ${state.getLocalIp()}",
               ),
               style: const TextStyle(fontSize: 12),
               focusNode: focusNode,
@@ -65,7 +65,7 @@ class SendCommentPage extends StatelessWidget {
             child: TextButton.icon(
                 onPressed: () {
                   Navigator.pop(context, logic.inputController.text);
-                  logic.startScan();
+                  logic.getInputAndStartScan();
                 },
                 icon: const Icon(Icons.radar),
                 label: const Text("Start Scan"))),

@@ -7,8 +7,14 @@ class ConstWidgets{
         height: 30,
         width: 30,
         child: CircularProgressIndicator(
-          strokeWidth: 2,
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+          strokeWidth: 6,
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.black38),
         ),
       ));
+  static const Widget EMPTY_TEXT = Center(
+    child: SizedBox(
+      child: Text("EMPTY",
+        style: TextStyle(color: Colors.black38, fontSize: 25, fontWeight: FontWeight.w900),),
+    ),
+  );
 }

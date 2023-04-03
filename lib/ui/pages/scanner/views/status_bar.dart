@@ -34,7 +34,7 @@ Row getStatusBar(BuildContext context) {
                 child: const Icon(Icons.clear_all),
                 backgroundColor: Colors.orange[300],
                 foregroundColor: Colors.white,
-                onTap: () => logic.refreshDeviceList(),
+                onTap: () => logic.refreshAllState(),
               ),
               SpeedDialChild(
                 child: const Icon(Icons.settings),

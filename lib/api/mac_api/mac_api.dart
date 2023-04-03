@@ -1,4 +1,5 @@
 import 'package:area_network_device_scanner/api/arp_api/arp_api.dart';
+import 'package:area_network_device_scanner/config/values.dart';
 import 'package:area_network_device_scanner/entity/mac_entity.dart';
 import 'package:area_network_device_scanner/utils/http_utils.dart';
 import 'package:area_network_device_scanner/utils/rand_utils.dart';
@@ -10,7 +11,8 @@ class MacApi{
 
   static Future<MacResult> getMacResultByIp(String ip) async{
     MacResult data = await _getMacFromArp(ip);
-    return _getDeviceNameByMac(data);
+    // 若关闭公司查询功能，则不再查询
+    return ConfigValues.showDeviceCompany?await _getDeviceNameByMac(data):data;
   }
 
   // 从arp列表中获取mac地址

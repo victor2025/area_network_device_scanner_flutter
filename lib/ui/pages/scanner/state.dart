@@ -15,13 +15,15 @@ class ScannerState {
   String localWifiName = Status.UNKNOWN;
   // 设备列表
   List<Widget> deviceList = [];
-  Widget deviceListView = ListView();
+  Widget deviceListView = ConstWidgets.EMPTY_TEXT;
   // 设备名称
   int deviceNum = 0;
   // arp缓存
   Map<String,String> arpCache = {};
   // 按键
   bool isScanning = false;
+  // 输入缓存
+  String currInput = "";
 
   ScannerState() {
     refresh();
@@ -31,13 +33,18 @@ class ScannerState {
   refresh(){
     status = "Tap to scan";
     deviceList = [];
-    deviceListView = ListView();
+    deviceListView = ConstWidgets.EMPTY_TEXT;
     deviceNum = 0;
     arpCache = {};
     notScanning();
     if (kDebugMode) {
       print("state refreshed");
     }
+  }
+
+  refreshAll(){
+    refresh();
+    currInput = "";
   }
 
   setStatus(String status) => this.status = status;

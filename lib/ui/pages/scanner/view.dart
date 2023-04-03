@@ -1,8 +1,5 @@
-import 'package:area_network_device_scanner/ui/pages/scanner/views/input_bar.dart';
-import 'package:area_network_device_scanner/ui/pages/scanner/views/local_info.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/views/status_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 
 import 'logic.dart';
@@ -15,7 +12,7 @@ class ScannerPage extends StatelessWidget {
     final logic = Get.put(ScannerLogic());
     final state = logic.state;
     // 刷新列表
-    logic.refreshDeviceList();
+    logic.refreshState();
 
     return Scaffold(
         appBar: AppBar(
@@ -24,7 +21,7 @@ class ScannerPage extends StatelessWidget {
         body: const ScannerBody(),
         floatingActionButton: GetBuilder<ScannerLogic>(builder: (logic) {
           return FloatingActionButton(
-            onPressed: state.isScanning ? () => {} : () => logic.startScan(),
+            onPressed: state.isScanning ? () => {} : () => logic.reScan(),
             child: const Icon(Icons.refresh),
           );
         }));

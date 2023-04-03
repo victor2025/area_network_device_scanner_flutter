@@ -6,7 +6,6 @@ import 'package:area_network_device_scanner/utils/codec_utils.dart';
 import 'package:area_network_device_scanner/utils/platform_utils/win_utils.dart';
 import 'package:dart_ping/dart_ping.dart';
 import 'package:dart_ping_ios/dart_ping_ios.dart';
-import 'package:network_info_plus/network_info_plus.dart';
 
 class NetworkUtils {
   // 判断目标地址是否可达

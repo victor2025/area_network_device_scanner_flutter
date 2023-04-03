@@ -1,26 +1,21 @@
 import 'package:area_network_device_scanner/api/ping_api/ping_api.dart';
+import 'package:area_network_device_scanner/config/values.dart';
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
-import 'package:area_network_device_scanner/entity/scan_task.dart';
+import 'package:area_network_device_scanner/entity/scan_tasks_entity.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/logic.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/views/device_list.dart';
 import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
+import 'package:area_network_device_scanner/utils/string_utils.dart';
 import 'package:get/get.dart';
 
 final logic = Get.find<ScannerLogic>();
 final state = logic.state;
 
-Future<List<PingResult>> parseInputAndScanIpWithRange(String input){
+Future<List<PingResult>> parseInputAndScanIpWithRange(String input) async{
   // parse
   ScanTasks tasks = ScanTasks.parseInput(input);
-  state.setStatus("Scanning: $tasks");
   // ping
   return _executeScanTask(tasks);
-}
-
-// 根据本地ip地址扫描局域网设备
-Future<List<PingResult>> scanIpRangeWithLocalIp() async{
-  String ip = state.getLocalIp();
-  return _executeScanTask(ScanTasks.parseInput(ip));
 }
 
 // 执行扫描任务
@@ -39,18 +34,26 @@ Future<List<PingResult>> _executeScanTask(ScanTasks tasks) async{
     );
   }
   // 等待所有任务完成
-  await Future.wait(futures);
+  await Future.wait(futures)
+      .timeout(Duration(milliseconds: ConfigValues.scanTimeout))
+      .catchError((e){return results;});
   return results;
 }
 
 // 开始扫描操作
-beforeScan(){
+String beforeScan(String input){
+  // 判断输入是否为空
+  if(input.isEmpty)input = state.getLocalIp();
+  input = StringUtils.makeInputValid(input);
   // 更改状态
   state.deviceListView = ConstWidgets.LOADING;
+  state.setStatus("Scanning for: $input");
   state.scanning();
+  logic.update();
+  return input;
 }
 
-afterScan(List<PingResult> results){
+void afterScan(List<PingResult> results){
   // 构建结果
   state.deviceListView = getDeviceListView(results);
   state.deviceNum = state.deviceList.length;

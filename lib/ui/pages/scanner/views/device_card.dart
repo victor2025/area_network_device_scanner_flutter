@@ -1,7 +1,9 @@
 import 'package:area_network_device_scanner/api/mac_api/mac_api.dart';
+import 'package:area_network_device_scanner/config/values.dart';
 import 'package:area_network_device_scanner/entity/mac_entity.dart';
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/logic.dart';
+import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +17,7 @@ const EdgeInsets cardMargin = EdgeInsets.fromLTRB(6, 2, 6, 2);
 
 Widget getIndexedDeviceCard(PingResult res, int ind){
   var index = Container(
-    padding: EdgeInsets.only(left: 10),
+    padding: const EdgeInsets.only(left: 10),
     child: Text("$ind",
       style: const TextStyle(fontWeight: FontWeight.bold),
       textAlign: TextAlign.center,
@@ -105,12 +107,12 @@ Widget _getMacInfoColumn(MacResult data){
   );
 
   // 公司名称
-  var companyRow = Row(
+  var companyRow = ConfigValues.showDeviceCompany?Row(
     children: [
       const Expanded(flex:1,child: Text("Company:",style: titleStyle,)),
       Expanded(flex:2,child: SelectableText(data.name,style: contentStyle,)),
     ],
-  );
+  ):ConstWidgets.EMPTY;
 
   return Column(
     children: [

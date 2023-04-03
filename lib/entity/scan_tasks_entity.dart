@@ -7,6 +7,7 @@ class ScanTasks{
   int currIdx = 0;
   int maxIdx = 0;
 
+  // 解析输入并生成任务列表
   static ScanTasks parseInput(String input){
     var tasks = ScanTasks();
     List<String> taskStrings = input.split(",");
