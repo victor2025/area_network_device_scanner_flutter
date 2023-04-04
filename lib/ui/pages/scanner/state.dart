@@ -1,17 +1,19 @@
 import 'package:area_network_device_scanner/api/arp_api/arp_api.dart';
 import 'package:area_network_device_scanner/config/strings.dart';
-import 'package:area_network_device_scanner/ui/pages/scanner/logic.dart';
+import 'package:area_network_device_scanner/entity/ping_entity.dart';
+import 'package:area_network_device_scanner/ui/pages/scanner/views/refresh_btn.dart';
 import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 
 class ScannerState {
   // 扫描状态
   String status = "";
+  // 当前扫描的缓存
+  Future<List<PingResult>>? fScan;
   // 本地信息
   Widget localInfo = ConstWidgets.EMPTY;
-  String localIp = Status.UNKNOWN;
+  Set<String> localIps = {Status.UNKNOWN};
   String localWifiName = Status.UNKNOWN;
   // 设备列表
   List<Widget> deviceList = [];
@@ -24,9 +26,11 @@ class ScannerState {
   bool isScanning = false;
   // 输入缓存
   String currInput = "";
+  // 按键
+  Widget refreshBtn = const RefreshBtn();
 
   ScannerState() {
-    refresh();
+    refreshAll();
   }
 
   // 刷新数据
@@ -36,6 +40,8 @@ class ScannerState {
     deviceListView = ConstWidgets.EMPTY_TEXT;
     deviceNum = 0;
     arpCache = {};
+    refreshBtn = const RefreshBtn();
+    fScan = null;
     notScanning();
     if (kDebugMode) {
       print("state refreshed");
@@ -49,11 +55,20 @@ class ScannerState {
 
   setStatus(String status) => this.status = status;
 
-  scanning()=>isScanning = true;
+  scanning(){
+    isScanning = true;
+    refreshBtn = const ScanningRefreshBtn();
+  }
   notScanning()=>isScanning = false;
 
   // 获取本地ip
-  String getLocalIp() => localIp==Status.UNKNOWN?Status.DEF_IP:localIp;
+  String getLocalIpsAsString(){
+    if(localIps.contains(Status.UNKNOWN)) {
+      return Status.DEF_IP;
+    }
+    String res = localIps.toString();
+    return res.substring(1,res.length-1);
+  }
 
   // 刷新arp列表
   void refreshArpCache() async => arpCache = await ArpApi.loadArpCache();

@@ -1,24 +1,37 @@
+import 'dart:io';
+
 import 'package:area_network_device_scanner/config/regexp.dart';
 import 'package:area_network_device_scanner/config/strings.dart';
 import 'package:area_network_device_scanner/entity/local_info_entity.dart';
+import 'package:area_network_device_scanner/utils/network_utils.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 
 class IpUtils{
 
+  // 获取本地信息
   static Future<LocalInfo> getLocalInfo() async{
-    String ip = await getLocalIp();
+    Set<String> ip = await getLocalIps();
     String wifiName = await getWifiName();
     return LocalInfo(ip, wifiName);
   }
 
   static Future<String> getWifiName() async{
-    String? wifiName = await NetworkInfo().getWifiName();
+    String? wifiName;
+    await NetworkInfo().getWifiName().then((value){
+      wifiName = value;
+    }).catchError((e){
+      wifiName = Status.UNKNOWN;
+    });
     return wifiName??Status.UNKNOWN;
   }
 
-  static Future<String> getLocalIp() async{
-    String? ip = await NetworkInfo().getWifiIP();
-    return ip??Status.UNKNOWN;
+  static Future<Set<String>> getLocalIps() async{
+    Set<String> ipSet = await NetworkUtils.getIpsFromNetworkInterface();
+    if(ipSet.isEmpty){
+      String? ip = await NetworkInfo().getWifiIP();
+      ipSet.add(ip??Status.UNKNOWN);
+    }
+    return ipSet;
   }
 
   // 将ip地址转换为数值形式
@@ -44,11 +57,15 @@ class IpUtils{
     return "${numArr[0]}.${numArr[1]}.${numArr[2]}.${numArr[3]}";
   }
 
+  static int ipCompare(String ip1, String ip2){
+    int startNum = IpUtils.ip2num(ip1);
+    int endNum = IpUtils.ip2num(ip2);
+    return startNum-endNum;
+  }
+
   static bool isRangeValid(String start, String end){
     if(!isIpValid(start)||!isIpValid(end))return false;
-    int startNum = IpUtils.ip2num(start);
-    int endNum = IpUtils.ip2num(end);
-    return startNum<=endNum;
+    return ipCompare(start, end)<=0;
   }
 
   static String getAreaStart(String ip){

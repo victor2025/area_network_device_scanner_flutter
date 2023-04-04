@@ -5,6 +5,8 @@ import 'package:area_network_device_scanner/utils/ip_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+const LocalInfoBox emptyLocalInfoBox = LocalInfoBox(ips: Status.UNKNOWN, wifi: Status.UNKNOWN);
+
 final state = Get.find<ScannerLogic>().state;
 
 FutureBuilder<LocalInfo> getLocalInfoFutureBuilder() {
@@ -12,51 +14,75 @@ FutureBuilder<LocalInfo> getLocalInfoFutureBuilder() {
     future: IpUtils.getLocalInfo(),
     builder: (context, snapshot) {
       if (snapshot.hasData) {
-        state.localIp = snapshot.data!.ip;
+        state.localIps = snapshot.data!.ips;
         state.localWifiName = snapshot.data!.wifiName;
-        return _getLocalInfoBox(snapshot.data!);
-      } else {
-        return _getLocalInfoBox(LocalInfo.unknownInfo());
+        return LocalInfoBox(
+            ips: state.getLocalIpsAsString(),
+            wifi: state.localWifiName
+        );
+      }else{
+        return emptyLocalInfoBox;
       }
     },
   );
 }
 
-const TextStyle titleStyle = TextStyle(fontSize: 16);
-const TextStyle itemTitleStyle = TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.w400);
-const TextStyle itemStyle = TextStyle(fontSize: 12, color: Colors.black);
+// 本地信息
+class LocalInfoBox extends StatelessWidget {
+  const LocalInfoBox({Key? key, required this.ips, required this.wifi}) : super(key: key);
 
-Widget _getLocalInfoBox(LocalInfo info) {
-  var systemIp = Row(
-    children: [
-      const Expanded(flex:2,child: Text(
-        "System Ip:",
-        style: itemTitleStyle,
-      ),),
-      Expanded(flex:3,child: SelectableText(info.ip, style: itemStyle,)),
-    ],
-  );
+  final String ips;
+  final String wifi;
+  final TextStyle _itemTitleStyle = const TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.w400);
+  final TextStyle _itemStyle = const TextStyle(fontSize: 12, color: Colors.black);
 
-  var wifiName = Row(
-    children: [
-      const Expanded(
-        flex:2,
-        child: Text(
-        "WiFi Name:",
-        style: itemTitleStyle,
-      ),),
-      Expanded(
-        flex:3,
-        child: SelectableText(info.wifiName, style: itemStyle,)),
-    ],
-  );
+  @override
+  Widget build(BuildContext context) {
+    return _getLocalInfoBox(ips, wifi);
+  }
 
-  return Container(
-    child: Column(
+  Widget _getLocalInfoBox(String ips, String wifi) {
+    var systemIp = Row(
+      children: [
+        Expanded(
+          flex: 2,
+          child: Text(
+            "System Ip:",
+            style: _itemTitleStyle,
+          ),
+        ),
+        Expanded(
+            flex: 3,
+            child: SelectableText(
+              ips,
+              style: _itemStyle,
+            )),
+      ],
+    );
+
+    var wifiName = Row(
+      children: [
+        Expanded(
+          flex: 2,
+          child: Text(
+            "WiFi Name:",
+            style: _itemTitleStyle,
+          ),
+        ),
+        Expanded(
+            flex: 3,
+            child: SelectableText(
+              wifi,
+              style: _itemStyle,
+            )),
+      ],
+    );
+
+    return Column(
       children: [
         systemIp,
         wifiName,
       ],
-    ),
-  );
+    );
+  }
 }

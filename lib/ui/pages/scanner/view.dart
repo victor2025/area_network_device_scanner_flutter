@@ -19,12 +19,10 @@ class ScannerPage extends StatelessWidget {
           title: const ScannerAppBarTitle(),
         ),
         body: const ScannerBody(),
-        floatingActionButton: GetBuilder<ScannerLogic>(builder: (logic) {
-          return FloatingActionButton(
-            onPressed: state.isScanning ? () => {} : () => logic.reScan(),
-            child: const Icon(Icons.refresh),
-          );
-        }));
+        floatingActionButton: GetBuilder<ScannerLogic>(
+            builder: (context)=>state.refreshBtn
+        )
+    );
   }
 }
 
@@ -59,7 +57,7 @@ class ScannerBody extends StatelessWidget {
     final state = logic.state;
     return Column(
       children: [
-        getStatusBar(context),
+        const StatusBar(),
         const Divider(
           height: 2,
         ),

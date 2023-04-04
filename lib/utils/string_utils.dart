@@ -1,4 +1,4 @@
-import 'package:area_network_device_scanner/config/values.dart';
+import 'package:area_network_device_scanner/entity/config_entity.dart';
 
 class StringUtils{
   // 保证输入合法
@@ -10,7 +10,7 @@ class StringUtils{
   }
 
   static String parseCompanyName(String input){
-    if(ConfigValues.showFullCompanyName){
+    if(ConfigEntity.CONFIG.showFullCompanyName){
       input = input.replaceAll(".","")
           .replaceAll(",", "")
           .replaceAll(RegExp("(Co Ltd)|(CO LTD)|(COLTD)"), "")

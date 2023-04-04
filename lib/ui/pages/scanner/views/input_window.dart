@@ -4,7 +4,7 @@ import 'package:area_network_device_scanner/ui/pages/scanner/logic.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SendCommentPage extends StatelessWidget {
+class InputPage extends StatelessWidget {
 
   static Future<T?> show<T>(BuildContext context) {
     return Navigator.of(context).push(
@@ -13,13 +13,13 @@ class SendCommentPage extends StatelessWidget {
         opaque: false,
         pageBuilder: (BuildContext context, Animation<double> animation,
             Animation<double> secondaryAnimation) {
-          return SendCommentPage();
+          return InputPage();
         },
       ),
     );
   }
 
-  SendCommentPage({super.key});
+  InputPage({super.key});
 
   final focusNode = FocusNode();
 
@@ -51,7 +51,7 @@ class SendCommentPage extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: "Input ip or ip range you want, and split with commas.\n"
                     "For example: \"192.168.1.1-192.168.1.255, 172.30.1.1\".\n"
-                    "Current default: ${state.getLocalIp()}",
+                    "Current default: ${state.getLocalIpsAsString()}",
               ),
               style: const TextStyle(fontSize: 12),
               focusNode: focusNode,

@@ -3,16 +3,16 @@ import 'package:dart_ping/dart_ping.dart';
 class PingResult {
   late String ip;
   late bool isAccessible;
-  late double? rtt;
+  late double rtt;
 
   PingResult(this.ip, this.isAccessible, this.rtt);
 
-  static PingResult successPing(String ip, double? rtt) {
+  static PingResult successPing(String ip, double rtt) {
     return PingResult(ip, true, rtt);
   }
 
   static PingResult failPing(String ip) {
-    return PingResult(ip, false, null);
+    return PingResult(ip, false, double.infinity);
   }
 
   static PingResult parsePingDataList(String ip, List<PingData> dataList) {

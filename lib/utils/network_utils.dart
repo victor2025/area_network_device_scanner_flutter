@@ -8,6 +8,10 @@ import 'package:dart_ping/dart_ping.dart';
 import 'package:dart_ping_ios/dart_ping_ios.dart';
 
 class NetworkUtils {
+
+  // 本地网络的可能名称
+  static const Set<String> NETWORK_NAMES = {"以太网","WLAN","Ethernet","eth0","wlan0"};
+
   // 判断目标地址是否可达
   static Future<PingResult> isAddressAccessible(String addr, {count = 4}) async {
     // ios预先注册
@@ -36,6 +40,20 @@ class NetworkUtils {
         break;
     }
     return res;
+  }
+
+  static Future<Set<String>> getIpsFromNetworkInterface() async{
+    Set<String> ipSet = {};
+    // 获取所有网络接口
+    List<NetworkInterface> interfaceList = await NetworkInterface
+        .list(type: InternetAddressType.IPv4);
+    // 从网络接口中获取ip地址
+    for (var value in interfaceList) {
+      if(NETWORK_NAMES.contains(value.name)){
+        ipSet.add(value.addresses[0].address);
+      }
+    }
+    return ipSet;
   }
 
 }

@@ -1,5 +1,4 @@
-import 'package:area_network_device_scanner/config/values.dart';
-import 'package:flutter/foundation.dart';
+import 'package:area_network_device_scanner/entity/config_entity.dart';
 
 class TaskManager{
   // 当前后台任务数目
@@ -12,12 +11,9 @@ class TaskManager{
 
   // 阻塞等待，直到有空闲
   static waitUntilAvailable({int? max}) async{
-    final int maxCnt = max??ConfigValues.maxBackGroundTaskCnt;
+    final int maxCnt = max??ConfigEntity.CONFIG.maxBackGroundTaskCnt;
     while(!_isAvailable(maxCnt)){
       await Future.delayed(const Duration(milliseconds: 10));
-    }
-    if (kDebugMode) {
-      print("$_currBackGroundTaskCnt/$maxCnt");
     }
     _addTaskCnt();
   }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:area_network_device_scanner/config/strings.dart';
 import 'package:area_network_device_scanner/config/values.dart';
+import 'package:area_network_device_scanner/entity/config_entity.dart';
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
 import 'package:area_network_device_scanner/entity/task_manager.dart';
 import 'package:area_network_device_scanner/utils/ip_utils.dart';
@@ -33,7 +34,7 @@ class PingApi {
     }
     // 等待所有扫描完成
     await Future.wait(futureList)
-        .timeout(Duration(milliseconds: ConfigValues.scanTimeout))
+        .timeout(Duration(milliseconds: ConfigEntity.CONFIG.scanTimeout))
         .catchError((e){return res;});
     if (kDebugMode) {
       print("scan range completed...");
