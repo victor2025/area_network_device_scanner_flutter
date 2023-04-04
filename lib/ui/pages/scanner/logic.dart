@@ -1,4 +1,5 @@
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
+import 'package:area_network_device_scanner/entity/scan_tasks_entity.dart';
 import 'package:area_network_device_scanner/utils/string_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,12 +45,18 @@ class ScannerLogic extends GetxController {
 
   // 同步等待扫描
   _scanSync(String input){
-    // 开始扫描操作
-    input = scan_logic.beforeScan(input);
-    // 开始扫描，并在扫描完成后展示数据
-    scan_logic
-        .parseInputAndScanIpWithRange(input)
-        .then((pingResults)=>scan_logic.afterScan(pingResults));
+    try{
+      // 开始扫描操作
+      ScanTasks tasks = scan_logic.beforeScan(input);
+      // 开始扫描，并在扫描完成后展示数据
+      scan_logic
+          .startScanTask(tasks)
+          .then((pingResults)=>scan_logic.afterScan(pingResults));
+    }catch(e){
+      // 将错误信息显示到状态中
+      state.setStatus(e.toString());
+    }
   }
+
 
 }

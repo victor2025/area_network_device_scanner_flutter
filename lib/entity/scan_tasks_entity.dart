@@ -1,4 +1,5 @@
 import 'package:area_network_device_scanner/utils/ip_utils.dart';
+import 'package:area_network_device_scanner/utils/string_utils.dart';
 
 class ScanTasks{
 
@@ -9,14 +10,21 @@ class ScanTasks{
 
   // 解析输入并生成任务列表
   static ScanTasks parseInput(String input){
+    // 使输入合法
+    input = StringUtils.makeInputValid(input);
+    // 开始扫描
     var tasks = ScanTasks();
     List<String> taskStrings = input.split(",");
     for (String taskStr in taskStrings) {
       final ipList = taskStr.split("-");
-      if(ipList.length==1){
-        tasks.addTask(IpUtils.getAreaStart(ipList[0]), IpUtils.getAreaEnd(ipList[0]));
-      }else if(ipList.length==2){
-        tasks.addTask(ipList[0], ipList[1]);
+      try{
+        if(ipList.length==1&&IpUtils.isIpValid(ipList[0])){
+          tasks.addTask(IpUtils.getAreaStart(ipList[0]), IpUtils.getAreaEnd(ipList[0]));
+        }else if(ipList.length==2&&IpUtils.isRangeValid(ipList[0], ipList[1])){
+          tasks.addTask(ipList[0], ipList[1]);
+        }
+      }catch(e){
+        continue;
       }
     }
     tasks.maxIdx = tasks.taskList.length-1;
@@ -38,6 +46,10 @@ class ScanTasks{
 
   bool hasNextTask(){
     return currIdx<=maxIdx;
+  }
+
+  int getTaskCount(){
+    return taskList.length;
   }
 
   @override

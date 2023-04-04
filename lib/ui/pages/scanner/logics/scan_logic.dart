@@ -5,15 +5,14 @@ import 'package:area_network_device_scanner/entity/scan_tasks_entity.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/logic.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/views/device_list.dart';
 import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
-import 'package:area_network_device_scanner/utils/string_utils.dart';
 import 'package:get/get.dart';
 
 final logic = Get.find<ScannerLogic>();
 final state = logic.state;
 
-Future<List<PingResult>> parseInputAndScanIpWithRange(String input) async{
-  // parse
-  ScanTasks tasks = ScanTasks.parseInput(input);
+Future<List<PingResult>> startScanTask(ScanTasks tasks) async{
+  // // parse
+  // ScanTasks tasks = ScanTasks.parseInput(input);
   // ping
   return _executeScanTask(tasks);
 }
@@ -41,16 +40,18 @@ Future<List<PingResult>> _executeScanTask(ScanTasks tasks) async{
 }
 
 // 开始扫描操作
-String beforeScan(String input){
+ScanTasks beforeScan(String input){
   // 判断输入是否为空
   if(input.isEmpty)input = state.getLocalIp();
-  input = StringUtils.makeInputValid(input);
+  ScanTasks tasks = ScanTasks.parseInput(input);
+  // 若任务为空，则报错
+  if(!tasks.hasNextTask())throw Exception("Invalid input!");
   // 更改状态
-  state.deviceListView = ConstWidgets.LOADING;
-  state.setStatus("Scanning for: $input");
+  state.setStatus("Scanning for: $tasks");
   state.scanning();
-  logic.update();
-  return input;
+  // loading
+  state.deviceListView = ConstWidgets.LOADING;
+  return tasks;
 }
 
 void afterScan(List<PingResult> results){

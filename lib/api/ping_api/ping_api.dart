@@ -28,7 +28,7 @@ class PingApi {
       futureList.add(_isIpAccessible(currIp)
           .then((value){
             res.add(value);
-            TaskManager.subTaskCnt();
+            TaskManager.completeTask();
       }));
     }
     // 等待所有扫描完成

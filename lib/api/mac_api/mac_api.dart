@@ -1,8 +1,10 @@
 import 'package:area_network_device_scanner/api/arp_api/arp_api.dart';
 import 'package:area_network_device_scanner/config/values.dart';
 import 'package:area_network_device_scanner/entity/mac_entity.dart';
+import 'package:area_network_device_scanner/entity/task_manager.dart';
 import 'package:area_network_device_scanner/utils/http_utils.dart';
 import 'package:area_network_device_scanner/utils/rand_utils.dart';
+import 'package:area_network_device_scanner/utils/string_utils.dart';
 import 'package:http/http.dart' as http;
 
 class MacApi{
@@ -41,9 +43,12 @@ class MacApi{
       return resp.body;
     }else if(resp.statusCode == HttpUtils.STATUS_TOO_MANY_REQUESTS){
       // 等待一段时间后重新发送请求
-      await Future
-          .delayed(Duration(milliseconds: RandUtils.randRange(500, 3000)));
-      return await _queryUrlForName(url);
+      await TaskManager.waitUntilAvailable(max: 3);
+      await Future.delayed(Duration(milliseconds: RandUtils.randRange(400, 2000)));
+      return await _queryUrlForName(url).then((value){
+        TaskManager.completeTask();
+        return value;
+      });
     }
     return "errors";
   }
@@ -56,7 +61,7 @@ class MacApi{
   // 从返回体中解析设备名称
   static void _parseRespBody(MacResult data, String? resp){
     if(resp!=null&&!resp.contains("errors")) {
-      data.name = resp.split(" ")[0];
+      data.name = StringUtils.parseCompanyName(resp);
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:area_network_device_scanner/config/regexp.dart';
 import 'package:area_network_device_scanner/config/strings.dart';
 import 'package:area_network_device_scanner/entity/local_info_entity.dart';
 import 'package:network_info_plus/network_info_plus.dart';
@@ -44,6 +45,7 @@ class IpUtils{
   }
 
   static bool isRangeValid(String start, String end){
+    if(!isIpValid(start)||!isIpValid(end))return false;
     int startNum = IpUtils.ip2num(start);
     int endNum = IpUtils.ip2num(end);
     return startNum<=endNum;
@@ -75,4 +77,10 @@ class IpUtils{
       return null;
     }
   }
+
+  static bool isIpValid(String ip){
+    String? match = Regs.IP.firstMatch(ip)?.group(0);
+    return match!=null&&match==ip;
+  }
+
 }

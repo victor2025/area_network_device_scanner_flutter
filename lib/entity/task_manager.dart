@@ -1,28 +1,32 @@
 import 'package:area_network_device_scanner/config/values.dart';
+import 'package:flutter/foundation.dart';
 
 class TaskManager{
   // 当前后台任务数目
   static int _currBackGroundTaskCnt = 0;
 
   // 用来限制后台任务的数目
-  static bool isAvailable(){
-    return _currBackGroundTaskCnt<ConfigValues.maxBackGroundTaskCnt;
+  static bool _isAvailable(int maxCnt){
+    return _currBackGroundTaskCnt<maxCnt;
   }
 
   // 阻塞等待，直到有空闲
-  static waitUntilAvailable() async{
-    while(!isAvailable()){
+  static waitUntilAvailable({int? max}) async{
+    final int maxCnt = max??ConfigValues.maxBackGroundTaskCnt;
+    while(!_isAvailable(maxCnt)){
       await Future.delayed(const Duration(milliseconds: 10));
     }
-    addTaskCnt();
+    if (kDebugMode) {
+      print("$_currBackGroundTaskCnt/$maxCnt");
+    }
+    _addTaskCnt();
   }
 
-  static void addTaskCnt(){
+  static void _addTaskCnt(){
     _currBackGroundTaskCnt++;
-    print(_currBackGroundTaskCnt);
   }
 
-  static void subTaskCnt(){
+  static void completeTask(){
     _currBackGroundTaskCnt--;
   }
 
