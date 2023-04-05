@@ -1,3 +1,5 @@
+# release file
+/releases/**
 # Miscellaneous
 *.class
 *.log
@@ -42,3 +44,4 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/obfuscate/**

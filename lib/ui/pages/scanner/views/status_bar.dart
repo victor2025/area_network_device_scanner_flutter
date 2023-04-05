@@ -27,7 +27,10 @@ class StatusBar extends StatelessWidget {
               child: GetBuilder<ScannerLogic>(builder: (context) {
                 return Text(
                   "Device Number: ${state.deviceNum}",
-                  style: const TextStyle(color: Colors.black),
+                  style: const TextStyle(
+                      fontSize:14,
+                      color: Colors.black
+                  ),
                 );
               }),
             ),
@@ -57,8 +60,8 @@ class MainButton extends StatelessWidget {
 
   Widget getMainButton(BuildContext context){
     return SpeedDial(
-      backgroundColor: Colors.blueGrey[500],
-      foregroundColor: Colors.white,
+      // backgroundColor: Colors.blueGrey,
+      // foregroundColor: Colors.white,
       overlayColor: Colors.black,
       overlayOpacity: 0.5,
       icon: Icons.add,
@@ -71,22 +74,22 @@ class MainButton extends StatelessWidget {
       children: [
         SpeedDialChild(
           child: const Icon(Icons.edit),
-          backgroundColor: Colors.blueGrey[300],
+          backgroundColor: Colors.blueGrey,
           foregroundColor: Colors.white,
           onTap: () => InputPage.show(context),
         ),
         SpeedDialChild(
           child: const Icon(Icons.cleaning_services),
-          backgroundColor: Colors.blueGrey[300],
+          backgroundColor: Colors.blueGrey,
           foregroundColor: Colors.white,
           onTap: () => logic.refreshAllState(),
         ),
-        SpeedDialChild(
-          child: const Icon(Icons.settings),
-          backgroundColor: Colors.blueGrey[300],
-          foregroundColor: Colors.white,
-          onTap: () {},
-        ),
+        // SpeedDialChild(
+        //   child: const Icon(Icons.settings),
+        //   backgroundColor: Colors.blueGrey[300],
+        //   foregroundColor: Colors.white,
+        //   onTap: () {},
+        // ),
       ],
     );
   }

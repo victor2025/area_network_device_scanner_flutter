@@ -19,10 +19,8 @@ class ScannerPage extends StatelessWidget {
           title: const ScannerAppBarTitle(),
         ),
         body: const ScannerBody(),
-        floatingActionButton: GetBuilder<ScannerLogic>(
-            builder: (context)=>state.refreshBtn
-        )
-    );
+        floatingActionButton:
+            GetBuilder<ScannerLogic>(builder: (context) => state.refreshBtn));
   }
 }
 
@@ -35,11 +33,12 @@ class ScannerAppBarTitle extends StatelessWidget {
     return Row(
       children: [
         const Expanded(
-          flex: 2,
-          child: Text("test scanner"),
+          child: Text(
+            "Device Detector",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
         Expanded(
-          flex: 3,
           child:
               GetBuilder<ScannerLogic>(builder: (context) => state.localInfo),
         )

@@ -32,7 +32,7 @@ class MacApi{
     // 发起请求
     String? respBody = await _queryUrlForName(url)
         .timeout(const Duration(milliseconds: 15000))
-        .onError((error, stackTrace) => null);
+        .catchError((e){return "errors";});
     // 解析respBody
     _parseRespBody(data,respBody);
     return data;

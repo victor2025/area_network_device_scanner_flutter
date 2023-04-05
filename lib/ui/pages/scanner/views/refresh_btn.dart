@@ -23,7 +23,7 @@ class ScanningRefreshBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: (){},
-      child: const Icon(Icons.access_time_outlined),
+      child: const Icon(Icons.timer),
     );
   }
 }

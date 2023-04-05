@@ -11,9 +11,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Device Scanner Demo',
+      title: 'Device Detector',
       theme: ThemeData(
-        primarySwatch: Colors.grey,
+        primarySwatch: Colors.blueGrey,
       ),
       home: const MyHomePage(),
     );

@@ -33,8 +33,8 @@ class LocalInfoBox extends StatelessWidget {
 
   final String ips;
   final String wifi;
-  final TextStyle _itemTitleStyle = const TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.w400);
-  final TextStyle _itemStyle = const TextStyle(fontSize: 12, color: Colors.black);
+  final TextStyle _itemTitleStyle = const TextStyle(fontSize: 10, color: Colors.white54, fontWeight: FontWeight.w700);
+  final TextStyle _itemStyle = const TextStyle(fontSize: 10, color: Colors.white54);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class LocalInfoBox extends StatelessWidget {
         Expanded(
           flex: 2,
           child: Text(
-            "System Ip:",
+            "Local Ip:",
             style: _itemTitleStyle,
           ),
         ),
