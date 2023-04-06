@@ -10,7 +10,6 @@ import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
 import 'package:area_network_device_scanner/utils/ip_utils.dart';
 
 class ScanLogic {
-
   final ScannerState state;
 
   ScanLogic(this.state);
@@ -27,10 +26,9 @@ class ScanLogic {
       if (task == null) break;
       // 限制任务数目
       TaskManager.waitUntilAvailable();
-      futures.add(PingApi.scanIpWithRange(task.start, task.end)
-          .then((value){
-            results.addAll(value);
-            TaskManager.completeTask();
+      futures.add(PingApi.scanIpWithRange(task.start, task.end).then((value) {
+        results.addAll(value);
+        TaskManager.completeTask();
       }));
     }
     // 等待所有任务完成
@@ -59,21 +57,22 @@ class ScanLogic {
 
   void afterScan(List<PingResult> results) {
     // 根据ip地址排序
-    results.sort((a,b){
+    results.sort((a, b) {
       return IpUtils.ipCompare(a.ip, b.ip);
     });
     // 构建结果
     state.deviceListView = DeviceListView(data: results);
     state.deviceNum = state.deviceList.length;
+    state.setStatus("Scan completed");
     state.notScanning();
   }
 
-  void _setScanStatus(ScanTasks tasks){
+  void _setScanStatus(ScanTasks tasks) {
     late String status;
-    if(ConfigEntity.CONFIG.showTaskInfo){
-      status ="Ip Count: ${tasks.getScanCount()} | Tasks: $tasks";
-    }else{
-      status = "Ip Count: ${tasks.getScanCount()}";
+    if (ConfigEntity.CONFIG.showTaskInfo) {
+      status = "Scanning ${tasks.getScanCount()} ips | Tasks: $tasks";
+    } else {
+      status = "Scanning ${tasks.getScanCount()} ips";
     }
     state.setStatus(status);
   }
