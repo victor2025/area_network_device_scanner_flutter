@@ -59,7 +59,10 @@ class ScannerState {
     isScanning = true;
     refreshBtn = const ScanningRefreshBtn();
   }
-  notScanning()=>isScanning = false;
+  notScanning(){
+    isScanning = false;
+    refreshBtn = const RefreshBtn();
+  }
 
   // 获取本地ip
   String getLocalIpsAsString(){

@@ -13,12 +13,12 @@ elif [ "$arch_name" = "aarch64" ]
 then
   arch_name=arm64
 fi
-res_path="$(pwd)"/build/windows/"$arch_name"/release
+res_path=./build/windows/runner
 curr_name="$app_name"-windows-"$arch_name"-"$version"
 # build
 flutter build windows --tree-shake-icons
 # compress
-cp -r "$res_path"/bundle "$res_path"/"$curr_name"
+cp -r "$res_path"/Release "$res_path"/"$curr_name"
 tar -czvf "$res_path"/"$curr_name".tar.gz -C "$res_path" "$curr_name"
 # move
 mkdir -p "$aim_path"
