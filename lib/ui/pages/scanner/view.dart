@@ -15,9 +15,6 @@ class ScannerPage extends StatelessWidget {
     // 刷新列表
     logic.refreshState();
 
-    // 用戶协议
-    Future.delayed(Duration.zero, ()=>logic.showAlertDialog(context));
-
     return Scaffold(
         appBar: AppBar(
           title: const ScannerAppBarTitle(),

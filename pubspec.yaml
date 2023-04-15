@@ -79,6 +79,7 @@ flutter:
   assets:
    - assets/icon/device_detector_icon.png
    - docs/privacy-agreement.md
+   - docs/user-agreement.md
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

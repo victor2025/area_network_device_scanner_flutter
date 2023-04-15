@@ -1,5 +1,4 @@
 import 'package:area_network_device_scanner/entity/scan_tasks_entity.dart';
-import 'package:area_network_device_scanner/ui/pages/scanner/logics/protocol_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'logics/scan_logic.dart';
@@ -12,18 +11,12 @@ class ScannerLogic extends GetxController {
   final TextEditingController inputController = TextEditingController();
   late final ScanLogic scanLogic;
   late final LocalInfoLogic localInfoLogic;
-  late final ProtocolLogic protocolLogic;
 
   ScannerLogic(){
     scanLogic = ScanLogic(state);
     localInfoLogic = LocalInfoLogic(state);
-    protocolLogic = ProtocolLogic(state);
   }
 
-  showAlertDialog(BuildContext context) async{
-    await state.loadProtocolStatus();
-    protocolLogic.showProtocolDialog(context);
-  }
 
   // 获取输入并扫描
   getInputAndStartScan(){

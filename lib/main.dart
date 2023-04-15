@@ -1,8 +1,9 @@
+import 'package:area_network_device_scanner/startup.dart';
+import 'package:area_network_device_scanner/ui/pages/protocol/logic.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/view.dart';
-import 'package:area_network_device_scanner/utils/sp_utils.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main(){
   runApp(const MyApp());
 }
 
@@ -12,8 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Future.delayed(Duration.zero,()=>SPUtil.init());
-
+    Future.delayed(Duration.zero,()=> startup());
+    
     return MaterialApp(
       title: 'Device Detector',
       theme: ThemeData(
@@ -26,12 +27,11 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
-
   @override
   Widget build(BuildContext context) {
+    // user and privacy protocol
+    Future.delayed(Duration.zero,()=> ProtocolLogic.showProtocolPage(context));
+
     return const ScannerPage();
   }
-
-
-
 }

@@ -13,5 +13,7 @@ class PreferenceKeys{
   static const String PROTOCOL = "isProtocolShown";
 }
 
-class Texts{
+class Paths{
+  static const String USER_PROTOCOL_PATH = "docs/user-agreement.md";
+  static const String PRIVACY_PROTOCOL_PATH = "docs/privacy-agreement.md";
 }

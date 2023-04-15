@@ -1,20 +1,26 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SPUtil {
   ///静态实例
   static late SharedPreferences _sharedPreferences;
+  static bool isInitialized = false;
 
   ///应用启动时需要调用
   ///初始化
   static Future<bool> init() async {
-    _sharedPreferences = await SharedPreferences.getInstance();
+    if(!isInitialized){
+      _sharedPreferences = await SharedPreferences.getInstance();
+      isInitialized = true;
+    }
     return true;
   }
 
   //清除数据
   static void remove(String key) async {
+    await init();
     if (_sharedPreferences.containsKey(key)) {
       _sharedPreferences.remove(key);
     }
@@ -22,38 +28,44 @@ class SPUtil {
 
   // 异步保存基本数据类型
   static Future save(String key, dynamic value) async {
+    await init();
     if (value is String) {
-      _sharedPreferences.setString(key, value);
+      return _sharedPreferences.setString(key, value);
     } else if (value is bool) {
-      _sharedPreferences.setBool(key, value);
+      return _sharedPreferences.setBool(key, value);
     } else if (value is double) {
-      _sharedPreferences.setDouble(key, value);
+      return _sharedPreferences.setDouble(key, value);
     } else if (value is int) {
-      _sharedPreferences.setInt(key, value);
+      return _sharedPreferences.setInt(key, value);
     } else if (value is List<String>) {
-      _sharedPreferences.setStringList(key, value);
+      return _sharedPreferences.setStringList(key, value);
     }
   }
 
   // 异步读取
   static Future<String?> getString(String key) async {
+    await init();
     return _sharedPreferences.getString(key);
   }
 
   static Future<int?> getInt(String key) async {
+    await init();
     return _sharedPreferences.getInt(key);
   }
 
   static Future<bool?> getBool(String key) async {
+    await init();
     return _sharedPreferences.getBool(key);
   }
 
   static Future<double?> getDouble(String key) async {
+    await init();
     return _sharedPreferences.getDouble(key);
   }
 
   ///保存自定义对象
   static Future saveObject(String key, dynamic value) async {
+    await init();
     ///通过 json 将Object对象编译成String类型保存
     _sharedPreferences.setString(key, json.encode(value));
   }

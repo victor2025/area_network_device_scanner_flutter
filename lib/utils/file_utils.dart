@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:area_network_device_scanner/utils/codec_utils.dart';
+import 'package:flutter/services.dart';
 
 class FileLoader{
 
@@ -14,4 +16,10 @@ class FileLoader{
     return content;
   }
 
+  static Future<String> loadAssetsAsString(String path){
+    return rootBundle.loadString(path)
+        .catchError((e){
+          return Future.value(e.toString());
+    });
+  }
 }

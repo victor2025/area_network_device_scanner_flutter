@@ -13,7 +13,7 @@ class StringUtils{
     if(ConfigEntity.CONFIG.showFullCompanyName){
       input = input.replaceAll(".","")
           .replaceAll(",", "")
-          .replaceAll(RegExp("(Co Ltd)|(CO LTD)|(COLTD)"), "")
+          .replaceAll(RegExp("(Co Ltd)|(CO LTD)|(COLTD)|CoLtd"), "")
           .replaceAll("TECHNOLOGIES", "Technologies")
           .trim();
     }else{
