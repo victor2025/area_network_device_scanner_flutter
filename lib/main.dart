@@ -1,4 +1,5 @@
 import 'package:area_network_device_scanner/ui/pages/scanner/view.dart';
+import 'package:area_network_device_scanner/utils/sp_utils.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,6 +11,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Future.delayed(Duration.zero,()=>SPUtil.init());
+
     return MaterialApp(
       title: 'Device Detector',
       theme: ThemeData(

@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:markdown_widget/config/all.dart';
+import 'package:markdown_widget/markdown_widget.dart';
+
 class ConfigValues{
   // 最大后台任务数目
   static int maxBackGroundTaskCnt = 128;
@@ -13,4 +17,25 @@ class ConfigValues{
   static int maxIpRange = 255*2;
   // 任务切片大小
   static int taskSliceSize = 64;
+}
+
+class StyleConfigs{
+  static MarkdownConfig markdownConfig = MarkdownConfig(
+    configs: [
+      const H1Config(
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold
+        )
+      ),
+      const H2Config(
+        style: TextStyle(
+          fontSize: 16
+        )
+      ),
+      const PConfig(
+        textStyle: TextStyle(fontSize: 12)
+      )
+    ]
+  );
 }

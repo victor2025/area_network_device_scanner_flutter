@@ -3,10 +3,14 @@ import 'package:area_network_device_scanner/config/strings.dart';
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/views/refresh_btn.dart';
 import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
+import 'package:area_network_device_scanner/utils/sp_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ScannerState {
+
+  // 协议弹窗
+  bool isProtocolShown = false;
   // 扫描状态
   String status = "";
   // 当前扫描的缓存
@@ -75,6 +79,10 @@ class ScannerState {
 
   // 刷新arp列表
   void refreshArpCache() async => arpCache = await ArpApi.loadArpCache();
+
+  loadProtocolStatus() async {
+    // isProtocolShown = await SPUtil.getBool(PreferenceKeys.PROTOCOL)??false;
+  }
 
 
 

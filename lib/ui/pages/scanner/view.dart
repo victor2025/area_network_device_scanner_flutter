@@ -11,8 +11,12 @@ class ScannerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final logic = Get.put(ScannerLogic());
     final state = logic.state;
+
     // 刷新列表
     logic.refreshState();
+
+    // 用戶协议
+    Future.delayed(Duration.zero, ()=>logic.showAlertDialog(context));
 
     return Scaffold(
         appBar: AppBar(
@@ -54,6 +58,7 @@ class ScannerBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final logic = Get.find<ScannerLogic>();
     final state = logic.state;
+
     return Column(
       children: [
         const StatusBar(),
