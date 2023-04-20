@@ -6,27 +6,29 @@ import 'package:area_network_device_scanner/config/values.dart';
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
 import 'package:area_network_device_scanner/entity/scan_tasks_entity.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/views/device_card.dart';
+import 'package:area_network_device_scanner/ui/pages/scanner/views/device_list.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/views/refresh_btn.dart';
 import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ScannerState {
 
   // cache
   ScanTasks tasks = ScanTasks();
   Stream<PingResult> scanStream = const Stream.empty();
-  late StreamSubscription<PingResult> scanSub;
+  StreamSubscription<PingResult>? scanSub;
+  List<PingResult> scanResults = [];
   int deviceNum = 0;
   Map<String,String> arpCache = {};
   // 本地信息 cache
   Widget localInfo = ConstWidgets.EMPTY;
   Set<String> localIps = {Status.UNKNOWN};
   String localWifiName = Status.UNKNOWN;
-  // 输入 cache
+  // input cache
   String currInput = "";
   // 设备列表 for view
-  List<Widget> deviceList = [];
   Widget deviceListView = ConstWidgets.EMPTY_TEXT;
   // status
   String status = ""; // main status
@@ -42,12 +44,12 @@ class ScannerState {
     // cache
     tasks = ScanTasks();
     scanStream = const Stream.empty();
-    scanSub = scanStream.listen((event){});
+    scanSub = null;
+    scanResults = [];
     status = "Tap to scan";
     deviceNum = 0;
     arpCache = {};
     // view
-    deviceList = [];
     deviceListView = ConstWidgets.EMPTY_TEXT;
     refreshBtn = const RefreshBtn();
     notScanning();
@@ -86,10 +88,11 @@ class ScannerState {
 
   // 更新列表
   void updateDeviceResult(PingResult data){
+    if(localIps.contains(data.ip))return;
     deviceNum++;
-    deviceList.add(IndexedDeviceCard(data: data, index: deviceNum));
-    deviceListView = ListView(
-      children: deviceList,
+    scanResults.add(data);
+    deviceListView = DeviceListView(
+      data: scanResults,
     );
   }
 

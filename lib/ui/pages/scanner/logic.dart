@@ -46,6 +46,7 @@ class ScannerLogic extends GetxController {
   refreshState(){
     state.refresh();
     localInfoLogic.refreshLocalInfo();
+    stopScan();
     update();
   }
 
@@ -68,7 +69,6 @@ class ScannerLogic extends GetxController {
       state.scanSub = state.scanStream
           .listen((event) async{
           state.updateDeviceResult(event);
-          await ThreadUtils.sleep(10);
           update();
       },
       onDone: (){

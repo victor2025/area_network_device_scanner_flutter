@@ -74,7 +74,6 @@ class PingApi {
       default:
         res = await NetworkUtils.isAddressAccessible(ip, count: count);
     }
-    print(res);
     return res;
   }
 }

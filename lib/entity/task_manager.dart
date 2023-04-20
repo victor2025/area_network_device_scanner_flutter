@@ -18,7 +18,7 @@ class TaskManager{
       await ThreadUtils.sleep(10);
     }
     if (kDebugMode) {
-      print('$_currBackGroundTaskCnt/$maxCnt');
+      // print('$_currBackGroundTaskCnt/$maxCnt');
     }
     _addTaskCnt();
   }

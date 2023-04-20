@@ -84,12 +84,12 @@ class MainButton extends StatelessWidget {
           foregroundColor: Colors.white,
           onTap: () => logic.refreshAllState(),
         ),
-        // SpeedDialChild(
-        //   child: const Icon(Icons.settings),
-        //   backgroundColor: Colors.blueGrey[300],
-        //   foregroundColor: Colors.white,
-        //   onTap: () {},
-        // ),
+        SpeedDialChild(
+          child: const Icon(Icons.info_outline),
+          backgroundColor: Colors.blueGrey,
+          foregroundColor: Colors.white,
+          onTap: () {},
+        ),
       ],
     );
   }

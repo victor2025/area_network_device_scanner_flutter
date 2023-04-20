@@ -34,18 +34,23 @@ class ScanLogic {
 
   void afterScan() {
     // 构建结果
-    state.setStatus("Scan completed");
+    state.setStatus("${state.status}\nScan completed");
     state.notScanning();
-    if(state.deviceListView==ConstWidgets.LOADING)state.deviceListView = ConstWidgets.EMPTY_TEXT;
+    if(state.deviceListView==ConstWidgets.LOADING) {
+      state.deviceListView = ConstWidgets.EMPTY_TEXT;
+    }
   }
 
   void stopScan(){
     _pauseAllStreams();
-    afterScan();
+    state.notScanning();
+    if(state.deviceListView==ConstWidgets.LOADING) {
+      state.deviceListView = ConstWidgets.EMPTY_TEXT;
+    }
   }
 
   void _pauseAllStreams(){
-    state.scanSub.pause();
+    state.scanSub?.pause();
     for (var ele in subList) {
       ele.pause();
     }

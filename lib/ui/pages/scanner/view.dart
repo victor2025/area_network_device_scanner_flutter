@@ -63,8 +63,10 @@ class ScannerBody extends StatelessWidget {
           height: 2,
         ),
         Expanded(
-            child: GetBuilder<ScannerLogic>(
-                builder: (context) => state.deviceListView)),
+          child: GetBuilder<ScannerLogic>(
+            builder: (context) => state.deviceListView
+          )
+        ),
       ],
     );
   }
