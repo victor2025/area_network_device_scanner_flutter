@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    // 初始化
     Future.delayed(Duration.zero,()=> startup());
     
     return MaterialApp(

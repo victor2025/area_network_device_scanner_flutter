@@ -1,4 +1,5 @@
 import 'package:area_network_device_scanner/config/strings.dart';
+import 'package:area_network_device_scanner/utils/ip_utils.dart';
 import 'package:area_network_device_scanner/utils/sp_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_widget/markdown_widget.dart';
@@ -7,7 +8,7 @@ class ConfigValues{
   // 最大后台任务数目
   static int maxBackGroundTaskCnt = 128;
   // 是否显示公司名称
-  static bool showDeviceCompany = true;
+  static bool showDeviceCompany = false;
   // 是否显示公司全称
   static bool showFullCompanyName = true;
   // 是否显示任务信息
@@ -17,7 +18,7 @@ class ConfigValues{
   // 最大扫描ip数目
   static int maxIpRange = 255*2;
   // 任务切片大小
-  static int taskSliceSize = 64;
+  static int taskSliceSize = IpUtils.ip2num("255.255.255.255")+1;
   // 是否已经显示用户协议
   static bool? isProtocolShown;
 

@@ -11,6 +11,7 @@ class NetworkUtils {
 
   // 本地网络的可能名称
   static const Set<String> NETWORK_NAMES = {"以太网","WLAN","Ethernet","eth0","wlan0"};
+  static const Duration PING_TIMEOUT = Duration(milliseconds: 10000);
 
   // 判断目标地址是否可达
   static Future<PingResult> isAddressAccessible(String addr, {count = 4}) async {
@@ -21,8 +22,8 @@ class NetworkUtils {
     // 开始执行
     final Ping ping = Ping(addr, count: count, encoding: CodecUtils.getCodec());
     List<PingData> dataList = await ping.stream.toList()
-        .catchError((e)=>{print(e),[]},)
-        .timeout(const Duration(milliseconds: 30000));
+        .timeout(PING_TIMEOUT)
+        .catchError((e)=>Future.value(<PingData>[]));
     return PingResult.parsePingDataList(addr, dataList);
   }
 
@@ -32,7 +33,9 @@ class NetworkUtils {
     late String pingRes;
     switch(Platform.operatingSystem){
       case Platforms.WINDOWS:
-        pingRes = await WinUtils.runPingCommand(addr);
+        pingRes = await WinUtils.runPingCommand(addr)
+            .timeout(PING_TIMEOUT)
+            .catchError((e)=>Future.value(''));
         res = WinUtils.parsePingRes(addr, pingRes);
         break;
       default:

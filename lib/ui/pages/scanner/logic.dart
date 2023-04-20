@@ -1,4 +1,4 @@
-import 'package:area_network_device_scanner/entity/scan_tasks_entity.dart';
+import 'package:area_network_device_scanner/utils/thread_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'logics/scan_logic.dart';
@@ -25,15 +25,20 @@ class ScannerLogic extends GetxController {
     // 刷新
     refreshState();
     // 开始同步扫描
-    _scanSync(state.currInput);
+    _scanAsync(state.currInput);
     // 更新页面
+    update();
+  }
+
+  stopScan(){
+    scanLogic.stopScan();
     update();
   }
 
   // 开始扫描
   reScan(){
     refreshState();
-    _scanSync(state.currInput);
+    _scanAsync(state.currInput);
     update();
   }
 
@@ -52,22 +57,28 @@ class ScannerLogic extends GetxController {
   }
 
 
-  // 同步等待扫描
-  _scanSync(String input){
+  // 异步扫描
+  _scanAsync(String input){
     try{
       // 开始扫描操作
-      ScanTasks tasks = scanLogic.beforeScan(input);
+      scanLogic.beforeScan(input);
       // 开始扫描，并在扫描完成后展示数据
-      state.fScan = scanLogic.startScanTask(tasks);
-      state.fScan?.then((pingResults){
-            scanLogic.afterScan(pingResults);
-            update();
+      scanLogic.doScan();
+      // 监听stream并刷新页面
+      state.scanSub = state.scanStream
+          .listen((event) async{
+          state.updateDeviceResult(event);
+          await ThreadUtils.sleep(10);
+          update();
+      },
+      onDone: (){
+          scanLogic.afterScan();
+          update();
       });
     }catch(e){
       // 将错误信息显示到状态中
       state.setStatus(e.toString());
     }
   }
-
 
 }

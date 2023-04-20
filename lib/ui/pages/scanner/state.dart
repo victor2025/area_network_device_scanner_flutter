@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:area_network_device_scanner/api/arp_api/arp_api.dart';
 import 'package:area_network_device_scanner/config/strings.dart';
 import 'package:area_network_device_scanner/config/values.dart';
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
+import 'package:area_network_device_scanner/entity/scan_tasks_entity.dart';
+import 'package:area_network_device_scanner/ui/pages/scanner/views/device_card.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/views/refresh_btn.dart';
 import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
 import 'package:flutter/foundation.dart';
@@ -9,27 +13,25 @@ import 'package:flutter/material.dart';
 
 class ScannerState {
 
-  // 扫描状态
-  String status = "";
-  // 当前扫描的缓存
-  Future<List<PingResult>>? fScan;
-  // 本地信息
+  // cache
+  ScanTasks tasks = ScanTasks();
+  Stream<PingResult> scanStream = const Stream.empty();
+  late StreamSubscription<PingResult> scanSub;
+  int deviceNum = 0;
+  Map<String,String> arpCache = {};
+  // 本地信息 cache
   Widget localInfo = ConstWidgets.EMPTY;
   Set<String> localIps = {Status.UNKNOWN};
   String localWifiName = Status.UNKNOWN;
-  // 设备列表
+  // 输入 cache
+  String currInput = "";
+  // 设备列表 for view
   List<Widget> deviceList = [];
   Widget deviceListView = ConstWidgets.EMPTY_TEXT;
-  // 设备名称
-  int deviceNum = 0;
-  // arp缓存
-  Map<String,String> arpCache = {};
-  // 按键
-  bool isScanning = false;
-  // 输入缓存
-  String currInput = "";
-  // 按键
-  Widget refreshBtn = const RefreshBtn();
+  // status
+  String status = ""; // main status
+  bool isScanning = false; // scan status
+  Widget refreshBtn = const RefreshBtn(); // btn status for view
 
   ScannerState() {
     refreshAll();
@@ -37,13 +39,17 @@ class ScannerState {
 
   // 刷新数据
   refresh(){
+    // cache
+    tasks = ScanTasks();
+    scanStream = const Stream.empty();
+    scanSub = scanStream.listen((event){});
     status = "Tap to scan";
-    deviceList = [];
-    deviceListView = ConstWidgets.EMPTY_TEXT;
     deviceNum = 0;
     arpCache = {};
+    // view
+    deviceList = [];
+    deviceListView = ConstWidgets.EMPTY_TEXT;
     refreshBtn = const RefreshBtn();
-    fScan = null;
     notScanning();
     if (kDebugMode) {
       print("state refreshed");
@@ -77,5 +83,14 @@ class ScannerState {
 
   // 刷新arp列表
   void refreshArpCache() async => arpCache = await ArpApi.loadArpCache();
+
+  // 更新列表
+  void updateDeviceResult(PingResult data){
+    deviceNum++;
+    deviceList.add(IndexedDeviceCard(data: data, index: deviceNum));
+    deviceListView = ListView(
+      children: deviceList,
+    );
+  }
 
 }
