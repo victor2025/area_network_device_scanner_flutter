@@ -49,9 +49,15 @@ class InfoContent extends StatelessWidget {
         children:[
           _getAppInfo(context),
           const Divider(),
-          const Text(
-               "by victor2022",
-              style: TextStyle(color: Colors.grey,fontSize: 10),
+          FutureBuilder(
+            future: logic.getVersionStr(),
+            builder: (c,s){
+              final String str = s.data??"";
+              return Text(
+                str,
+                style: const TextStyle(color: Colors.grey,fontSize: 10),
+              );
+            },
           ),
         ]
       )

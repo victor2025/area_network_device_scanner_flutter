@@ -17,6 +17,7 @@ class Paths{
   static const String USAGE_PROTOCOL_PATH = "docs/usage-agreement.md";
   static const String PRIVACY_PROTOCOL_PATH = "docs/privacy-agreement.md";
   static const String INFO_PATH = "docs/app-info.md";
+  static const String VERSION_PATH = "docs/version-str";
 }
 
 class Texts{

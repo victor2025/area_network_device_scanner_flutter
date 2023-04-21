@@ -21,6 +21,10 @@ class InfoLogic extends GetxController {
     );
   }
 
+  Future<String> getVersionStr(){
+    return FileLoader.loadAssetsAsString(Paths.VERSION_PATH);
+  }
+
   showAppInfo(BuildContext context){
     MarkdownAlertLogic.showMarkdownAlert(context, Paths.INFO_PATH);
   }
