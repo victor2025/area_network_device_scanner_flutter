@@ -15,7 +15,12 @@ class MacApi{
   static Future<MacResult> getMacResultByIp(String ip) async{
     MacResult data = await _getMacFromArp(ip);
     // 若关闭公司查询功能，则不再查询
+    return data;
     return ConfigEntity.CONFIG.showDeviceCompany?await _getDeviceNameByMac(data):data;
+  }
+
+  static Future<MacResult> getMacResultWithCompany(MacResult data){
+    return _getDeviceNameByMac(data);
   }
 
   // 从arp列表中获取mac地址
@@ -30,9 +35,17 @@ class MacApi{
     // 生成url
     String url = _getMacQueryUrl(data);
     // 发起请求
+    await TaskManager.waitUntilAvailable();
     String? respBody = await _queryUrlForName(url)
-        .timeout(const Duration(milliseconds: 15000))
-        .catchError((e){return "errors";});
+        // .timeout(const Duration(milliseconds: 60000))
+        .catchError((e){
+          TaskManager.completeTask();
+          return "errors";
+        })
+        .then((value){
+          TaskManager.completeTask();
+          return Future.value(value);
+        });
     // 解析respBody
     _parseRespBody(data,respBody);
     return data;
@@ -44,11 +57,12 @@ class MacApi{
       return resp.body;
     }else if(resp.statusCode == HttpUtils.STATUS_TOO_MANY_REQUESTS){
       // 等待一段时间后重新发送请求
-      await TaskManager.waitUntilAvailable(max: 3);
       await Future.delayed(Duration(milliseconds: RandUtils.randRange(400, 2000)));
-      return await _queryUrlForName(url).then((value){
-        TaskManager.completeTask();
+      return await _queryUrlForName(url)
+      .then((value){
         return value;
+      }).catchError((e){
+        return Future.value("errors");
       });
     }
     return "errors";

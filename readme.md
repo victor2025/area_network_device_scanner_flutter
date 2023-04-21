@@ -8,9 +8,9 @@ based on flutter
 - Show accessible ip address, delay, mac address and company
 
 ## platforms
-- android
-- windows
-- linux
+- android(armv7,armv8)
+- windows(x64)
+- linux(x64)
 
 ## project address
 [Device Detector](https://github.com/victor2025/area_network_device_scanner_flutter)

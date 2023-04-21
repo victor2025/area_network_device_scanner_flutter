@@ -1,4 +1,3 @@
-import 'package:area_network_device_scanner/utils/thread_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'logics/scan_logic.dart';
@@ -54,6 +53,7 @@ class ScannerLogic extends GetxController {
   refreshAllState(){
     state.refreshAll();
     localInfoLogic.refreshLocalInfo();
+    state.setStatus("All cleared");
     update();
   }
 

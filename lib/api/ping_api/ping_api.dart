@@ -14,6 +14,7 @@ class PingApi {
   // 过滤不可达结果
   static Stream<PingResult> getAccessibleIpWithRange(String start, String end) {
     StreamController<PingResult> sc = StreamController();
+    sc.onPause = ()=>sc.close();
     _scanIpWithRangeByStream(start, end, sc);
     return sc.stream.where((event) => event.isAccessible);
   }
@@ -39,6 +40,8 @@ class PingApi {
     // 开始扫描，若可以访问，则添加到list中
     List<Future> futureList = [];
     for (int i = startNum; i <= endNum; i++) {
+      // 根据stream状态决定是否继续扫描
+      if(sc.isClosed)break;
       // 获取当前ip地址
       String currIp = IpUtils.num2ip(i);
       // 阻塞等待，直到成功抢占
@@ -50,8 +53,6 @@ class PingApi {
       }).onError((error, stackTrace) {
         TaskManager.completeTask();
       }));
-      // 根据stream状态决定是否继续扫描
-      if(sc.isPaused)break;
     }
     // 等待所有扫描完成
     await Future.wait(futureList)

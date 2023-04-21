@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'package:area_network_device_scanner/config/strings.dart';
 import 'package:area_network_device_scanner/config/values.dart';
 import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:markdown_widget/markdown_widget.dart';
@@ -36,8 +38,8 @@ class ProtocolPage extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 10),
         child: Row(
           children: [
-            Expanded(child: agreeBtn),
             Expanded(child: quitBtn),
+            Expanded(child: agreeBtn),
           ],
         )
     );
@@ -47,7 +49,7 @@ class ProtocolPage extends StatelessWidget {
       backgroundColor: Colors.white, //背景颜色
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5)), //设置形状
-      title: const Text("用户协议与隐私条款",
+      title: const Text("用户协议",
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
@@ -71,26 +73,39 @@ class ProtocolContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double boxSize = MediaQuery.of(context).size.width/2;
     return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: _getProtocolFutureBuilder(),
+      width: boxSize,
+      height: boxSize/1.5,
+      child: _getUserProtocol(context),
     );
   }
 
-  FutureBuilder<String> _getProtocolFutureBuilder(){
-    return FutureBuilder<String>(
-      future: protocolLogic.loadProtocol(),
-      builder: (context, snapshot){
-        if(snapshot.hasData){
-          return MarkdownWidget(
-            data: snapshot.data!,
-            config: StyleConfigs.markdownConfig,
-          );
-        }else{
-          return ConstWidgets.EMPTY;
-        }
-      },
+
+  Widget _getUserProtocol(BuildContext context){
+    TextStyle mainStyle = const TextStyle(fontSize: 14);
+    TextStyle tapperStyle = const TextStyle(color: Colors.blue);
+    return Text.rich(
+      TextSpan(
+        children: [
+          const TextSpan(text: Texts.USER_PROTOCOL_PREFIX,),
+          TextSpan(
+            text: "《使用条款》",
+            style: tapperStyle,
+            recognizer: TapGestureRecognizer()
+              ..onTap=()=>protocolLogic.showUsageProtocol(context)
+          ),
+          const TextSpan(text: "及"),
+          TextSpan(
+            text: "《隐私协议》",
+            style: tapperStyle,
+            recognizer: TapGestureRecognizer()
+              ..onTap=()=>protocolLogic.showPrivacyProtocol(context)
+          ),
+          const TextSpan(text: Texts.USER_PROTOCOL_SUFFIX),
+        ],
+        style: mainStyle,
+      ),
     );
   }
 }

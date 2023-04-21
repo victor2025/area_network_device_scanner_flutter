@@ -1,5 +1,7 @@
+import 'package:area_network_device_scanner/ui/pages/info/logic.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/logic.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/views/input_window.dart';
+import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
@@ -25,12 +27,18 @@ class StatusBar extends StatelessWidget {
             leading: const MainButton(),
             title: SizedBox(
               child: GetBuilder<ScannerLogic>(builder: (context) {
-                return Text(
-                  "Device Number: ${state.deviceNum}",
-                  style: const TextStyle(
-                      fontSize:14,
-                      color: Colors.black
-                  ),
+                return Row(
+                  children: [
+                    Text(
+                      "Device Number: ${state.deviceNum}",
+                      style: const TextStyle(
+                          fontSize:14,
+                          color: Colors.black
+                      ),
+                    ),
+                    const VerticalDivider(),
+                    state.isScanning?ConstWidgets.LOADING:ConstWidgets.EMPTY
+                  ],
                 );
               }),
             ),
@@ -43,7 +51,8 @@ class StatusBar extends StatelessWidget {
               },
             )),
           ),
-        )
+        ),
+
       ],
     );
   }
@@ -60,8 +69,6 @@ class MainButton extends StatelessWidget {
 
   Widget getMainButton(BuildContext context){
     return SpeedDial(
-      // backgroundColor: Colors.blueGrey,
-      // foregroundColor: Colors.white,
       overlayColor: Colors.black,
       overlayOpacity: 0.5,
       icon: Icons.add,
@@ -88,7 +95,7 @@ class MainButton extends StatelessWidget {
           child: const Icon(Icons.info_outline),
           backgroundColor: Colors.blueGrey,
           foregroundColor: Colors.white,
-          onTap: () {},
+          onTap: () => InfoLogic.showInfoPage(context),
         ),
       ],
     );

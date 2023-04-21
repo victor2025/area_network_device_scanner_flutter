@@ -1,7 +1,7 @@
 import 'package:area_network_device_scanner/config/strings.dart';
 import 'package:area_network_device_scanner/config/values.dart';
+import 'package:area_network_device_scanner/ui/pages/markdown_alert/logic.dart';
 import 'package:area_network_device_scanner/ui/pages/protocol/view.dart';
-import 'package:area_network_device_scanner/utils/file_utils.dart';
 import 'package:area_network_device_scanner/utils/sp_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,19 +36,12 @@ class ProtocolLogic extends GetxController {
     SPUtil.save(PreferenceKeys.PROTOCOL, ConfigValues.isProtocolShown);
   }
 
-  Future<String> loadProtocol() async{
-    StringBuffer sb = StringBuffer();
-    sb..write(await _loadUserProtocol())
-      ..write("\n")
-      ..write(await _loadPrivacyProtocol());
-    return sb.toString();
+  showUsageProtocol(BuildContext context){
+    MarkdownAlertLogic.showMarkdownAlert(context, Paths.USAGE_PROTOCOL_PATH);
   }
 
-  Future<String> _loadUserProtocol(){
-    return FileLoader.loadAssetsAsString(Paths.USER_PROTOCOL_PATH);
+  showPrivacyProtocol(BuildContext context){
+    MarkdownAlertLogic.showMarkdownAlert(context, Paths.PRIVACY_PROTOCOL_PATH);
   }
 
-  Future<String> _loadPrivacyProtocol(){
-    return FileLoader.loadAssetsAsString(Paths.PRIVACY_PROTOCOL_PATH);
-  }
 }

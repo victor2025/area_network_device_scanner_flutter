@@ -6,13 +6,14 @@ class ConstWidgets {
   );
   static const Widget LOADING = Center(
     child: SizedBox(
-      height: 50,
-      width: 50,
-      child: CircularProgressIndicator(
-      strokeWidth: 6,
-      valueColor: AlwaysStoppedAnimation<Color>(Colors.blueGrey),
-    ),
-  ));
+        height: 10,
+        width: 10,
+        child: CircularProgressIndicator(
+          strokeWidth: 3,
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.blueGrey),
+      ),
+    )
+  );
   static const Widget EMPTY_TEXT = Center(
     child: SizedBox(
       child: Text(

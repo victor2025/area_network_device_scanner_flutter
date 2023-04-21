@@ -1,3 +1,4 @@
+import 'package:area_network_device_scanner/ui/pages/scanner/views/refresh_btn.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/views/status_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,8 +13,7 @@ class ScannerPage extends StatelessWidget {
     final logic = Get.put(ScannerLogic());
     final state = logic.state;
 
-    // 刷新列表
-    logic.refreshState();
+    Future.delayed(Duration.zero,()=>logic.refreshState());
 
     return Scaffold(
         appBar: AppBar(
@@ -21,7 +21,12 @@ class ScannerPage extends StatelessWidget {
         ),
         body: const ScannerBody(),
         floatingActionButton:
-            GetBuilder<ScannerLogic>(builder: (context) => state.refreshBtn));
+          GetBuilder<ScannerLogic>(
+              builder: (context){
+              return state.isScanning?const ScanningRefreshBtn():const RefreshBtn();
+            }
+          )
+    );
   }
 }
 

@@ -29,24 +29,16 @@ class ScanLogic {
 
   void doScan() {
     state.scanStream = _startScanTask();
-    state.deviceListView = ConstWidgets.LOADING;
+    state.deviceListView = ConstWidgets.EMPTY_TEXT;
   }
 
   void afterScan() {
-    // 构建结果
-    state.setStatus("${state.status}\nScan completed");
     state.notScanning();
-    if(state.deviceListView==ConstWidgets.LOADING) {
-      state.deviceListView = ConstWidgets.EMPTY_TEXT;
-    }
   }
 
   void stopScan(){
     _pauseAllStreams();
-    state.notScanning();
-    if(state.deviceListView==ConstWidgets.LOADING) {
-      state.deviceListView = ConstWidgets.EMPTY_TEXT;
-    }
+    afterScan();
   }
 
   void _pauseAllStreams(){
@@ -59,9 +51,9 @@ class ScanLogic {
   void _setScanStatus(ScanTasks tasks) {
     late String status;
     if (ConfigEntity.CONFIG.showTaskInfo) {
-      status = "Scanning ${tasks.getScanCount()} ips | Tasks: $tasks";
+      status = "Scan ${tasks.getScanCount()} ips | Tasks: $tasks";
     } else {
-      status = "Scanning ${tasks.getScanCount()} ips";
+      status = "Scan ${tasks.getScanCount()} ips";
     }
     state.setStatus(status);
     state.scanning();

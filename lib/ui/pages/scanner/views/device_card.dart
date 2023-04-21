@@ -118,11 +118,11 @@ class DeviceCardMacInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _getMacInfoFutureBuilder(ip);
+    return _getMacFutureBuilder(ip);
   }
 
   // 获取mac信息
-  FutureBuilder<MacResult> _getMacInfoFutureBuilder(String ip) {
+  FutureBuilder<MacResult> _getMacFutureBuilder(String ip) {
     return FutureBuilder<MacResult>(
       future: MacApi.getMacResultByIp(ip),
       builder: (context, snapshot) {
@@ -154,25 +154,37 @@ class DeviceCardMacInfo extends StatelessWidget {
       ],
     );
 
+    FutureBuilder<MacResult> _getCompanyFutureBuilder(MacResult data){
+      return FutureBuilder<MacResult>(
+        future: MacApi.getMacResultWithCompany(data),
+        builder: (context, snapshot){
+          if(snapshot.hasData){
+            data.name = snapshot.data!.name;
+          }
+          return SelectableText(
+            data.name,
+            style: contentStyle,
+          );
+        },
+      );
+    }
+
     // 公司名称
     var companyRow = ConfigValues.showDeviceCompany
         ? Row(
-            children: [
-              const Expanded(
-                  flex: 1,
-                  child: Text(
-                    "Company:",
-                    style: titleStyle,
-                  )),
-              Expanded(
-                  flex: 2,
-                  child: SelectableText(
-                    data.name,
-                    style: contentStyle,
-                  )),
-            ],
-          )
-        : ConstWidgets.EMPTY;
+      children: [
+        const Expanded(
+            flex: 1,
+            child: Text(
+              "Company:",
+              style: titleStyle,
+            )),
+        Expanded(
+          flex: 2,
+          child: _getCompanyFutureBuilder(data),
+        ),
+      ],
+    ) : ConstWidgets.EMPTY;
 
     return Column(
       children: [
