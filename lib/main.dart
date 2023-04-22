@@ -1,7 +1,10 @@
+import 'package:area_network_device_scanner/config/strings.dart';
+import 'package:area_network_device_scanner/l10n/l10n_str.dart';
 import 'package:area_network_device_scanner/startup.dart';
 import 'package:area_network_device_scanner/ui/pages/protocol/logic.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main(){
   runApp(const MyApp());
@@ -15,8 +18,11 @@ class MyApp extends StatelessWidget {
 
     // 初始化
     Future.delayed(Duration.zero,()=> startup());
-    
-    return MaterialApp(
+
+    return GetMaterialApp(
+      locale: Get.deviceLocale,
+      translations: L10nTrans(),
+      fallbackLocale: Status.EN_US,
       title: 'Device Detector',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,

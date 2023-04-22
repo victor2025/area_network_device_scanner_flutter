@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:area_network_device_scanner/api/ping_api/ping_api.dart';
-import 'package:area_network_device_scanner/entity/config_entity.dart';
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
 import 'package:area_network_device_scanner/entity/scan_tasks_entity.dart';
 import 'package:area_network_device_scanner/entity/task_manager.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/state.dart';
 import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
+import 'package:get/get.dart';
 
 class ScanLogic {
 
@@ -20,7 +20,7 @@ class ScanLogic {
     if (input.isEmpty) input = state.getLocalIpsAsString();
     ScanTasks tasks = ScanTasks.parseInput(input);
     // 若任务为空，则报错
-    if (!tasks.hasNextTask()) throw Exception("Invalid input!");
+    if (!tasks.hasNextTask()) throw Exception('invalidInput'.tr);
     // 更改状态
     _setScanStatus(tasks);
     // 刷新任务数目
@@ -50,11 +50,7 @@ class ScanLogic {
 
   void _setScanStatus(ScanTasks tasks) {
     late String status;
-    if (ConfigEntity.CONFIG.showTaskInfo) {
-      status = "Scan ${tasks.getScanCount()} ips | Tasks: $tasks";
-    } else {
-      status = "Scan ${tasks.getScanCount()} ips";
-    }
+    status = "${'scanStatusPrefix'.tr}${tasks.getScanCount()}${'scanStatusSuffix'.tr} | ${'scanTaskPrefix'.tr}: $tasks";
     state.setStatus(status);
     state.scanning();
     // cache tasks

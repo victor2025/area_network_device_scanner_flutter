@@ -20,7 +20,7 @@ class MarkdownAlertPage extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop(true);
           },
-          child: const Text('返回')),
+          child: Text('back'.tr  )),
     );
 
     var dialog = AlertDialog(

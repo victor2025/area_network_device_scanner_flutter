@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:area_network_device_scanner/config/strings.dart';
-import 'package:area_network_device_scanner/entity/mac_entity.dart';
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
 import 'package:area_network_device_scanner/utils/codec_utils.dart';
 import 'package:area_network_device_scanner/utils/platform_utils/win_utils.dart';

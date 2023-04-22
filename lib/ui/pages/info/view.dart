@@ -1,7 +1,3 @@
-import 'dart:io';
-import 'package:area_network_device_scanner/config/strings.dart';
-import 'package:area_network_device_scanner/config/values.dart';
-import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,8 +16,8 @@ class InfoPage extends StatelessWidget {
       backgroundColor: Colors.white, //背景颜色
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5)), //设置形状
-      title: const Text("应用信息",
-        style: TextStyle(
+      title: Text('appInfo'.tr,
+        style: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
@@ -44,20 +40,14 @@ class InfoContent extends StatelessWidget {
     double boxSize = MediaQuery.of(context).size.width/2;
     return SizedBox(
       width: boxSize,
-      height: boxSize/1.5,
+      height: boxSize/1.4,
       child: ListView(
         children:[
           _getAppInfo(context),
           const Divider(),
-          FutureBuilder(
-            future: logic.getVersionStr(),
-            builder: (c,s){
-              final String str = s.data??"";
-              return Text(
-                str,
-                style: const TextStyle(color: Colors.grey,fontSize: 10),
-              );
-            },
+          Container(
+            alignment: Alignment.bottomLeft,
+            child: _getVersionBox()
           ),
         ]
       )
@@ -71,28 +61,42 @@ class InfoContent extends StatelessWidget {
       TextSpan(
         children: [
           TextSpan(
-              text: "应用说明",
+              text: 'appIntro'.tr,
               style: tapperStyle,
               recognizer: TapGestureRecognizer()
                 ..onTap=()=>logic.showAppInfo(context)
           ),
           const TextSpan(text: "\n\n",),
           TextSpan(
-              text: "使用条款",
+              text: 'usageProtocol'.tr,
               style: tapperStyle,
               recognizer: TapGestureRecognizer()
                 ..onTap=()=>logic.showUsageProtocol(context)
           ),
           const TextSpan(text: "\n\n"),
           TextSpan(
-              text: "隐私协议",
+              text: 'privacyProtocol'.tr,
               style: tapperStyle,
               recognizer: TapGestureRecognizer()
                 ..onTap=()=>logic.showPrivacyProtocol(context)
           ),
+          const TextSpan(text: "\n"),
         ],
         style: mainStyle,
       ),
+    );
+  }
+
+  FutureBuilder<String> _getVersionBox(){
+    return FutureBuilder(
+      future: logic.getVersionStr(),
+      builder: (c,s){
+        final String str = s.data??"";
+        return Text(
+          str,
+          style: const TextStyle(color: Colors.grey,fontSize: 10),
+        );
+      },
     );
   }
 

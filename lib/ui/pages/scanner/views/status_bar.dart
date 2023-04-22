@@ -26,11 +26,11 @@ class StatusBar extends StatelessWidget {
           child: ListTile(
             leading: const MainButton(),
             title: SizedBox(
-              child: GetBuilder<ScannerLogic>(builder: (context) {
+              child: GetBuilder<ScannerLogic>(builder: (c) {
                 return Row(
                   children: [
                     Text(
-                      "Device Number: ${state.deviceNum}",
+                      "${'deviceNumber'.tr}: ${state.deviceNum}",
                       style: const TextStyle(
                           fontSize:14,
                           color: Colors.black

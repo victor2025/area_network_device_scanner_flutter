@@ -9,6 +9,7 @@ import 'package:area_network_device_scanner/ui/pages/scanner/views/device_list.d
 import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ScannerState {
 
@@ -41,7 +42,7 @@ class ScannerState {
     scanStream = const Stream.empty();
     scanSub = null;
     scanResults = [];
-    status = "Tap to scan";
+    status = 'tapStatus'.tr;
     deviceNum = 0;
     arpCache = {};
     // view

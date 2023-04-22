@@ -49,9 +49,7 @@ class InputPage extends StatelessWidget {
               controller: logic.inputController,
               cursorColor: Colors.black,
               decoration: InputDecoration(
-                hintText: "Input ip or ip range you want, and split with commas.\n"
-                    "For example: \"192.168.1.1-192.168.1.255, 172.30.1.1\".\n"
-                    "Current default: ${state.getLocalIpsAsString()}",
+                hintText: "${'inputTips'.tr} ${state.getLocalIpsAsString()}",
               ),
               style: const TextStyle(fontSize: 12),
               focusNode: focusNode,
@@ -68,7 +66,7 @@ class InputPage extends StatelessWidget {
                   logic.getInputAndStartScan();
                 },
                 icon: const Icon(Icons.radar),
-                label: const Text("Start Scan"))),
+                label: Text('startScan'.tr))),
       ],
     );
 

@@ -53,7 +53,7 @@ class ScannerLogic extends GetxController {
   refreshAllState(){
     state.refreshAll();
     localInfoLogic.refreshLocalInfo();
-    state.setStatus("All cleared");
+    state.setStatus('allClearedStatus'.tr);
     update();
   }
 

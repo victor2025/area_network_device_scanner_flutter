@@ -65,7 +65,7 @@ class DeviceCardContent extends StatelessWidget {
   Widget _getCardContent(PingResult res) {
     // ip
     var ipRow = ListTile(
-      title: const Text("Ip Address:", style: titleStyle),
+      title: Text("${'ipAddress'.tr}:", style: titleStyle),
       subtitle: SelectableText(res.ip,
           style: const TextStyle(
             fontSize: 18,
@@ -76,10 +76,10 @@ class DeviceCardContent extends StatelessWidget {
     // 延迟
     var delayRow = Row(
       children: [
-        const Expanded(
+        Expanded(
             flex: 1,
             child: Text(
-              "Delay:",
+              "${'delay'.tr}:",
               style: titleStyle,
             )),
         Expanded(
@@ -139,10 +139,10 @@ class DeviceCardMacInfo extends StatelessWidget {
     // mac地址
     var macRow = Row(
       children: [
-        const Expanded(
+        Expanded(
             flex: 1,
             child: Text(
-              "Mac:",
+              "${'mac'.tr}:",
               style: titleStyle,
             )),
         Expanded(
@@ -154,29 +154,14 @@ class DeviceCardMacInfo extends StatelessWidget {
       ],
     );
 
-    FutureBuilder<MacResult> _getCompanyFutureBuilder(MacResult data){
-      return FutureBuilder<MacResult>(
-        future: MacApi.getMacResultWithCompany(data),
-        builder: (context, snapshot){
-          if(snapshot.hasData){
-            data.name = snapshot.data!.name;
-          }
-          return SelectableText(
-            data.name,
-            style: contentStyle,
-          );
-        },
-      );
-    }
-
     // 公司名称
     var companyRow = ConfigValues.showDeviceCompany
         ? Row(
       children: [
-        const Expanded(
+        Expanded(
             flex: 1,
             child: Text(
-              "Company:",
+              "${'company'.tr}:",
               style: titleStyle,
             )),
         Expanded(
@@ -191,6 +176,21 @@ class DeviceCardMacInfo extends StatelessWidget {
         macRow,
         companyRow,
       ],
+    );
+  }
+
+  FutureBuilder<MacResult> _getCompanyFutureBuilder(MacResult data){
+    return FutureBuilder<MacResult>(
+      future: MacApi.getMacResultWithCompany(data),
+      builder: (context, snapshot){
+        if(snapshot.hasData){
+          data.name = snapshot.data!.name;
+        }
+        return SelectableText(
+          data.name,
+          style: contentStyle,
+        );
+      },
     );
   }
 }

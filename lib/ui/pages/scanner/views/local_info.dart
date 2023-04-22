@@ -47,7 +47,7 @@ class LocalInfoBox extends StatelessWidget {
         Expanded(
           flex: 2,
           child: Text(
-            "Local Ip:",
+            "${'localIp'.tr}:",
             style: _itemTitleStyle,
           ),
         ),
@@ -65,7 +65,7 @@ class LocalInfoBox extends StatelessWidget {
         Expanded(
           flex: 2,
           child: Text(
-            "WiFi Name:",
+            "${'wifiName'.tr}:",
             style: _itemTitleStyle,
           ),
         ),

@@ -1,11 +1,8 @@
 import 'dart:io';
 import 'package:area_network_device_scanner/config/strings.dart';
-import 'package:area_network_device_scanner/config/values.dart';
-import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:markdown_widget/markdown_widget.dart';
 
 import 'logic.dart';
 
@@ -23,7 +20,7 @@ class ProtocolPage extends StatelessWidget {
             logic.shownProtocol();
             Navigator.of(context).pop(true);
           },
-          child: const Text('同意')),
+          child: Text('agree'.tr)),
     );
 
     var quitBtn = Center(
@@ -31,7 +28,7 @@ class ProtocolPage extends StatelessWidget {
           onPressed: () {
             exit(0);
           },
-          child: const Text('退出')),
+          child: Text('exit'.tr)),
     );
 
     var actions = Container(
@@ -49,8 +46,8 @@ class ProtocolPage extends StatelessWidget {
       backgroundColor: Colors.white, //背景颜色
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5)), //设置形状
-      title: const Text("用户协议",
-        style: TextStyle(
+      title: Text('userProtocolTitle'.tr,
+        style: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
@@ -88,21 +85,21 @@ class ProtocolContent extends StatelessWidget {
     return Text.rich(
       TextSpan(
         children: [
-          const TextSpan(text: Texts.USER_PROTOCOL_PREFIX,),
+          TextSpan(text: 'userProtocolPrefix'.tr,),
           TextSpan(
-            text: "《使用条款》",
+            text: 'usageProtocolTitle'.tr,
             style: tapperStyle,
             recognizer: TapGestureRecognizer()
               ..onTap=()=>protocolLogic.showUsageProtocol(context)
           ),
-          const TextSpan(text: "及"),
+          TextSpan(text: 'and'.tr),
           TextSpan(
-            text: "《隐私协议》",
+            text: 'privacyProtocolTitle'.tr,
             style: tapperStyle,
             recognizer: TapGestureRecognizer()
               ..onTap=()=>protocolLogic.showPrivacyProtocol(context)
           ),
-          const TextSpan(text: Texts.USER_PROTOCOL_SUFFIX),
+          TextSpan(text: 'userProtocolSuffix'.tr),
         ],
         style: mainStyle,
       ),
