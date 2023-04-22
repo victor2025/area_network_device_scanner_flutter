@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:area_network_device_scanner/config/strings.dart';
+import 'package:area_network_device_scanner/config/values.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,10 +48,7 @@ class ProtocolPage extends StatelessWidget {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5)), //设置形状
       title: Text('userProtocolTitle'.tr,
-        style: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
+        style: StyleConfigs.alertTitleStyle,
       ),
       content: ProtocolContent(
         protocolLogic: logic,

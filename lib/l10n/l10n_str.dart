@@ -8,6 +8,7 @@ class L10nTrans extends Translations{
   }
 
   final Map<String,String> _enUs = {
+    "language": "English",
     // front page
     "localIp": "Local Ip",
     "wifiName": "WiFi Name",
@@ -25,6 +26,14 @@ class L10nTrans extends Translations{
     "appIntro": "Introduction",
     "usageProtocol": "Usage Protocol",
     "privacyProtocol": "Privacy Protocol",
+    // setting page
+    "appSetting": "Setting",
+    "showCompanySetting": "Show company",
+    "threadNumberSetting": "Max thread number",
+    "enableTimeoutSetting": "Enable scan timeout",
+    "scanTimeoutSetting": "Scan timeout(second)",
+    "languageSetting": "Language",
+    "disabled": "disabled",
     // status
     "tapStatus": "Tap to scan",
     "scanStatusPrefix": "Scan ",
@@ -44,9 +53,12 @@ class L10nTrans extends Translations{
     "agree": "Agree",
     "exit": "Exit",
     "back": "Back",
+    "cancel": "Cancel",
+    "save": "Save",
   };
 
   final Map<String,String> _zhCn = {
+    "language": "中文",
     "localIp": "本地Ip",
     "wifiName": "WiFi名称",
     "deviceNumber": "设备数目",
@@ -60,6 +72,13 @@ class L10nTrans extends Translations{
     "appIntro": "应用说明",
     "usageProtocol": "使用条款",
     "privacyProtocol": "隐私协议",
+    "appSetting": "设置",
+    "showCompanySetting": "显示厂商",
+    "threadNumberSetting": "最大扫描线程数",
+    "enableTimeoutSetting": "启用扫描超时时间",
+    "scanTimeoutSetting": "扫描超时时间(秒)",
+    "languageSetting": "语言",
+    "disabled": "无效",
     "tapStatus": "点击以扫描",
     "scanStatusPrefix": "共扫描",
     "scanStatusSuffix": "个Ip地址",
@@ -75,6 +94,8 @@ class L10nTrans extends Translations{
     "agree": "同意",
     "exit": "退出",
     "back": "返回",
+    "cancel": "取消",
+    "save": "保存",
   };
 
 }

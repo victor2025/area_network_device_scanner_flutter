@@ -1,3 +1,4 @@
+import 'package:area_network_device_scanner/config/values.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,15 +13,11 @@ class InfoPage extends StatelessWidget {
     final logic = Get.put(InfoLogic());
 
     var dialog = AlertDialog(
-      elevation: 0,
       backgroundColor: Colors.white, //背景颜色
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5)), //设置形状
       title: Text('appInfo'.tr,
-        style: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
+        style: StyleConfigs.alertTitleStyle,
       ),
       content: InfoContent(
         logic: logic,
@@ -37,13 +34,14 @@ class InfoContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double boxSize = MediaQuery.of(context).size.width/2;
+    double width = MediaQuery.of(context).size.width/2;
+    double height = MediaQuery.of(context).size.height/5;
     return SizedBox(
-      width: boxSize,
-      height: boxSize/1.4,
-      child: ListView(
+      width: width,
+      height: height,
+      child: Column(
         children:[
-          _getAppInfo(context),
+          Expanded(child: _getAppInfo(context)),
           const Divider(),
           Container(
             alignment: Alignment.bottomLeft,
@@ -55,9 +53,10 @@ class InfoContent extends StatelessWidget {
   }
 
   Widget _getAppInfo(BuildContext context){
-    TextStyle mainStyle = const TextStyle(fontSize: 14);
+    TextStyle mainStyle = const TextStyle(fontSize: 15);
     TextStyle tapperStyle = const TextStyle(color: Colors.blue);
-    return Text.rich(
+
+    var text = Text.rich(
       TextSpan(
         children: [
           TextSpan(
@@ -83,6 +82,13 @@ class InfoContent extends StatelessWidget {
           const TextSpan(text: "\n"),
         ],
         style: mainStyle,
+      ),
+    );
+
+    return Container(
+      alignment: Alignment.topLeft,
+      child: ListView(
+        children: [text],
       ),
     );
   }

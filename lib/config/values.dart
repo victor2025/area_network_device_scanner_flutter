@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 
 class ConfigValues{
+  static const int MIN_THREAD_NUMBER = 16;
+  static const int MAX_THREAD_NUMBER = 1024;
+  static const int MIN_TIMEOUT = 15000;
+  static const int MAX_TIMEOUT = 120000;
   // 最大后台任务数目
   static int maxBackGroundTaskCnt = 64;
   // 是否显示公司名称
@@ -28,6 +32,11 @@ class ConfigValues{
 }
 
 class StyleConfigs{
+
+  static TextStyle alertTitleStyle = const TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
 
   static MarkdownConfig markdownConfig = MarkdownConfig(
     configs: [

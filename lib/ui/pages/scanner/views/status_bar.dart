@@ -1,6 +1,7 @@
 import 'package:area_network_device_scanner/ui/pages/info/logic.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/logic.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/views/input_window.dart';
+import 'package:area_network_device_scanner/ui/pages/setting/logic.dart';
 import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -90,6 +91,12 @@ class MainButton extends StatelessWidget {
           backgroundColor: Colors.blueGrey,
           foregroundColor: Colors.white,
           onTap: () => logic.refreshAllState(),
+        ),
+        SpeedDialChild(
+          child: const Icon(Icons.settings),
+          backgroundColor: Colors.blueGrey,
+          foregroundColor: Colors.white,
+          onTap: () => SettingLogic.showSettingPage(context),
         ),
         SpeedDialChild(
           child: const Icon(Icons.info_outline),
