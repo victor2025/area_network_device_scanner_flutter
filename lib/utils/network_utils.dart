@@ -9,7 +9,7 @@ import 'package:dart_ping_ios/dart_ping_ios.dart';
 class NetworkUtils {
 
   // 本地网络的可能名称
-  static const Set<String> NETWORK_NAMES = {"以太网","WLAN","Ethernet","eth0","wlan0"};
+  static const Set<String> NETWORK_NAMES = {"以太网","wlan","ethernet","eth0","wlan0","rmnet0"};
   static const Duration PING_TIMEOUT = Duration(milliseconds: 10000);
 
   // 判断目标地址是否可达
@@ -51,9 +51,7 @@ class NetworkUtils {
         .list(type: InternetAddressType.IPv4);
     // 从网络接口中获取ip地址
     for (var value in interfaceList) {
-      if(NETWORK_NAMES.contains(value.name)){
-        ipSet.add(value.addresses[0].address);
-      }
+      ipSet.add(value.addresses[0].address);
     }
     return ipSet;
   }

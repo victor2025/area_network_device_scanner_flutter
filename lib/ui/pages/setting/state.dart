@@ -1,14 +1,25 @@
-import 'package:area_network_device_scanner/config/values.dart';
+import 'package:area_network_device_scanner/config/config_values.dart';
 
 class SettingState {
 
-  bool showCompany = false;
-  int threadNumber = 128;
-  bool enableTimeout = true;
-  int scanTimeout = 30;
-  bool isChinese = true;
+  final ConfigValues config = ConfigValues.CONFIG;
+  late bool showCompany;
+  late int threadNumber;
+  late bool enableTimeout;
+  late int scanTimeout; // second
+  late bool isChinese;
 
-  SettingState();
+  SettingState(){
+    loadConfigs();
+  }
+
+  void loadConfigs(){
+    showCompany = config.showDeviceCompany;
+    threadNumber = config.maxBackGroundTaskCnt;
+    enableTimeout = config.enableTimeout;
+    scanTimeout = config.scanTimeout~/1000;
+    isChinese = config.isChinese;
+  }
 
   void switchShowCompany()=>showCompany = !showCompany;
   void switchLanguage()=>isChinese = !isChinese;
@@ -36,6 +47,14 @@ class SettingState {
     if(enableTimeout&&scanTimeout*1000<ConfigValues.MAX_TIMEOUT) {
       scanTimeout+=5;
     }
+  }
+
+  // 保存设置
+  void saveConfigs(){
+    config.saveShowCompany(showCompany);
+    config.saveThreadNumber(threadNumber);
+    config.saveTimeout(enableTimeout, scanTimeout*1000);
+    config.saveLanguage(isChinese);
   }
   
 }

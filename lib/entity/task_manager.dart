@@ -1,4 +1,4 @@
-import 'package:area_network_device_scanner/entity/config_entity.dart';
+import 'package:area_network_device_scanner/config/config_values.dart';
 import 'package:area_network_device_scanner/utils/thread_utils.dart';
 import 'package:flutter/foundation.dart';
 
@@ -13,7 +13,7 @@ class TaskManager{
 
   // 阻塞等待，直到有空闲
   static waitUntilAvailable({int? max}) async{
-    final int maxCnt = max??ConfigEntity.CONFIG.maxBackGroundTaskCnt;
+    final int maxCnt = max??ConfigValues.CONFIG.maxBackGroundTaskCnt;
     while(!_isAvailable(maxCnt)){
       await ThreadUtils.sleep(10);
     }

@@ -1,3 +1,4 @@
+import 'package:area_network_device_scanner/config/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -47,6 +48,11 @@ class SettingLogic extends GetxController {
 
   tapLanguage(){
     state.switchLanguage();
+    update();
+  }
+
+  tapSave(){
+    state.saveConfigs();
     update();
   }
 }

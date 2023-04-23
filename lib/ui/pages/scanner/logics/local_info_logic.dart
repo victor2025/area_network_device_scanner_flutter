@@ -11,7 +11,7 @@ class LocalInfoLogic{
   LocalInfoLogic(this.state);
 
   void refreshLocalInfo(){
-    state.localInfo = getLocalInfoFutureBuilder();
+    state.localInfoBox = getLocalInfoFutureBuilder();
   }
 }
 

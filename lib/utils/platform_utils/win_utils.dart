@@ -11,7 +11,7 @@ class WinUtils {
   }
 
   static PingResult parsePingRes(String addr, String pingStr) {
-    String? str1 = Regs.WIN_PING_RCVD.firstMatch(pingStr)!.group(0);
+    String? str1 = Regs.WIN_PING_RCVD.firstMatch(pingStr)?.group(0);
     String? rcvdStr = RegExpUtils.getPosInt(str1 ?? "");
     int rcvdNum = int.parse(rcvdStr ?? "0");
     // 解析

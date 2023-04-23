@@ -1,5 +1,5 @@
 import 'package:area_network_device_scanner/config/values.dart';
-import 'package:area_network_device_scanner/entity/config_entity.dart';
+import 'package:area_network_device_scanner/config/config_values.dart';
 import 'package:area_network_device_scanner/utils/ip_utils.dart';
 import 'package:area_network_device_scanner/utils/string_utils.dart';
 
@@ -42,7 +42,7 @@ class ScanTasks{
   static void _addTaskSlices(ScanTasks tasks, String start, String end){
     int startNum = IpUtils.ip2num(start);
     int endNum = IpUtils.ip2num(end);
-    int sliceSize = ConfigEntity.CONFIG.taskSliceSize;
+    int sliceSize = ConfigValues.CONFIG.taskSliceSize;
     // 若小于切片大小，则直接添加任务
     if(endNum-startNum+1<=sliceSize){
       tasks.addTaskByNum(startNum,endNum);

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:area_network_device_scanner/api/arp_api/arp_api.dart';
 import 'package:area_network_device_scanner/config/strings.dart';
+import 'package:area_network_device_scanner/entity/local_info_entity.dart';
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
 import 'package:area_network_device_scanner/entity/scan_tasks_entity.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/views/device_card.dart';
@@ -21,9 +22,8 @@ class ScannerState {
   int deviceNum = 0;
   Map<String,String> arpCache = {};
   // 本地信息 cache
-  Widget localInfo = ConstWidgets.EMPTY;
-  Set<String> localIps = {Status.UNKNOWN};
-  String localWifiName = Status.UNKNOWN;
+  Widget localInfoBox = ConstWidgets.EMPTY;
+  LocalInfo localInfo = LocalInfo.unknownInfo();
   // input cache
   String currInput = "";
   // 设备列表 for view
@@ -66,11 +66,10 @@ class ScannerState {
 
   // 获取本地ip
   String getLocalIpsAsString(){
-    if(localIps.contains(Status.UNKNOWN)) {
+    if(localInfo.ips.contains(Status.UNKNOWN)) {
       return Status.DEF_IP;
     }
-    String res = localIps.toString();
-    return res.substring(1,res.length-1);
+    return localInfo.toString();;
   }
 
   // 刷新arp列表
@@ -78,7 +77,7 @@ class ScannerState {
 
   // 更新列表
   void updateDeviceResult(PingResult data){
-    if(localIps.contains(data.ip))return;
+    if(localInfo.ips.contains(data.ip))return;
     deviceNum++;
     scanResults.add(data);
     cardList.add(IndexedDeviceCard(

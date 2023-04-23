@@ -46,16 +46,23 @@ android {
 
     def keystorePropertiesFile = rootProject.file("key.properties")
     def keystoreProperties = new Properties()
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    def keyStoreFile
+    try{
+        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+        keyStoreFile = file(keystoreProperties['storeFile'])
+    }catch(e){
+        println(e)
+    }
 
     signingConfigs {
         release {
             keyAlias keystoreProperties['keyAlias']
-            storeFile file(keystoreProperties['storeFile'])
+            storeFile keyStoreFile
             storePassword keystoreProperties['storePassword']
             keyPassword keystoreProperties['keyPassword']
         }
     }
+
 
     buildTypes {
         release {

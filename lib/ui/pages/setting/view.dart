@@ -27,6 +27,7 @@ class SettingPage extends StatelessWidget {
     var saveBtn = Center(
       child: ElevatedButton(
           onPressed: () {
+            logic.tapSave();
             Navigator.of(context).pop(true);
           },
           child: Text('save'.tr)),
@@ -99,13 +100,18 @@ class SettingContent extends StatelessWidget {
 
     var scanTimeoutRow = GetBuilder<SettingLogic>(builder: (logic) {
       return state.enableTimeout?
-      ConfigRow(
-        name: 'scanTimeoutSetting'.tr,
-        configZone: ButtonCounter(
-            displayZone: Text("${state.scanTimeout}"),
-            countDown: () => logic.tapTimeoutCountDown(),
-            countUp: () => logic.tapTimeoutCountUp(),
-        ),
+      Column(
+        children: [
+          const Divider(),
+          ConfigRow(
+            name: 'scanTimeoutSetting'.tr,
+            configZone: ButtonCounter(
+                displayZone: Text("${state.scanTimeout}"),
+                countDown: () => logic.tapTimeoutCountDown(),
+                countUp: () => logic.tapTimeoutCountUp(),
+            ),
+          ),
+        ],
       ):ConstWidgets.EMPTY;
     });
 

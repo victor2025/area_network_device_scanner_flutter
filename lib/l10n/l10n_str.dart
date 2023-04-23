@@ -27,11 +27,11 @@ class L10nTrans extends Translations{
     "usageProtocol": "Usage Protocol",
     "privacyProtocol": "Privacy Protocol",
     // setting page
-    "appSetting": "Setting",
+    "appSetting": "Settings",
     "showCompanySetting": "Show company",
     "threadNumberSetting": "Max thread number",
     "enableTimeoutSetting": "Enable scan timeout",
-    "scanTimeoutSetting": "Scan timeout(second)",
+    "scanTimeoutSetting": "Scan timeout (second)",
     "languageSetting": "Language",
     "disabled": "disabled",
     // status

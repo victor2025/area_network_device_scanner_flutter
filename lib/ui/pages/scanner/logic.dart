@@ -1,3 +1,4 @@
+import 'package:area_network_device_scanner/config/config_values.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'logics/scan_logic.dart';
@@ -44,16 +45,22 @@ class ScannerLogic extends GetxController {
   // 刷新页面
   refreshState(){
     state.refresh();
-    localInfoLogic.refreshLocalInfo();
     stopScan();
+    refreshLocalInfo();
+    update();
+  }
+
+  refreshLocalInfo(){
+    localInfoLogic.refreshLocalInfo();
     update();
   }
 
   // 刷新全部状态
   refreshAllState(){
     state.refreshAll();
-    localInfoLogic.refreshLocalInfo();
     state.setStatus('allClearedStatus'.tr);
+    inputController.text = "";
+    localInfoLogic.refreshLocalInfo();
     update();
   }
 
@@ -75,6 +82,12 @@ class ScannerLogic extends GetxController {
           scanLogic.afterScan();
           update();
       });
+      // scan timeout
+      if(ConfigValues.CONFIG.enableTimeout){
+        Future.delayed(
+            Duration(milliseconds: ConfigValues.CONFIG.scanTimeout)
+        ).then((value) => stopScan());
+      }
     }catch(e){
       // 将错误信息显示到状态中
       state.setStatus(e.toString());

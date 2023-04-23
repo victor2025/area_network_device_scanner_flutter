@@ -1,6 +1,6 @@
 import 'package:area_network_device_scanner/api/arp_api/arp_api.dart';
 import 'package:area_network_device_scanner/config/values.dart';
-import 'package:area_network_device_scanner/entity/config_entity.dart';
+import 'package:area_network_device_scanner/config/config_values.dart';
 import 'package:area_network_device_scanner/entity/mac_entity.dart';
 import 'package:area_network_device_scanner/entity/task_manager.dart';
 import 'package:area_network_device_scanner/utils/http_utils.dart';
@@ -16,7 +16,7 @@ class MacApi{
     MacResult data = await _getMacFromArp(ip);
     // 若关闭公司查询功能，则不再查询
     return data;
-    return ConfigEntity.CONFIG.showDeviceCompany?await _getDeviceNameByMac(data):data;
+    return ConfigValues.CONFIG.showDeviceCompany?await _getDeviceNameByMac(data):data;
   }
 
   static Future<MacResult> getMacResultWithCompany(MacResult data){

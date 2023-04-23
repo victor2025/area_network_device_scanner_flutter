@@ -15,6 +15,11 @@ class Status{
 
 class PreferenceKeys{
   static const String PROTOCOL = "isProtocolShown";
+  static const String COMPANY_KEY = "showDeviceCompany";
+  static const String TASK_CNT_KEY = "taskCnt";
+  static const String ENABLE_TIMEOUT_KEY = "enableTimeout";
+  static const String SCAN_TIMEOUT_KEY = "scanTimeout";
+  static const String LANGUAGE_KEY = "isChinese";
 }
 
 class Paths{

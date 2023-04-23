@@ -1,36 +1,18 @@
 import 'dart:io';
-
 import 'package:area_network_device_scanner/config/regexp.dart';
-import 'package:area_network_device_scanner/config/strings.dart';
 import 'package:area_network_device_scanner/entity/local_info_entity.dart';
 import 'package:area_network_device_scanner/utils/network_utils.dart';
-import 'package:network_info_plus/network_info_plus.dart';
 
 class IpUtils{
 
   // 获取本地信息
   static Future<LocalInfo> getLocalInfo() async{
-    Set<String> ip = await getLocalIps();
-    String wifiName = await getWifiName();
-    return LocalInfo(ip, wifiName);
+    Set<String> ip = await _getLocalIps();
+    return LocalInfo(ip);
   }
 
-  static Future<String> getWifiName() async{
-    String? wifiName;
-    await NetworkInfo().getWifiName().then((value){
-      wifiName = value;
-    }).catchError((e){
-      wifiName = Status.UNKNOWN;
-    });
-    return wifiName??Status.UNKNOWN;
-  }
-
-  static Future<Set<String>> getLocalIps() async{
+  static Future<Set<String>> _getLocalIps() async{
     Set<String> ipSet = await NetworkUtils.getIpsFromNetworkInterface();
-    if(ipSet.isEmpty){
-      String? ip = await NetworkInfo().getWifiIP();
-      ipSet.add(ip??Status.UNKNOWN);
-    }
     return ipSet;
   }
 
@@ -40,7 +22,7 @@ class IpUtils{
     // 需要保证ip是合法的
     if(ipNumArr==null)return ip2num("255.255.255.255");
     int res = 0;
-    for (int num in ipNumArr!) {
+    for (int num in ipNumArr) {
       res<<=8;
       res|=num;
     }

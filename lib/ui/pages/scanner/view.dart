@@ -13,7 +13,7 @@ class ScannerPage extends StatelessWidget {
     final logic = Get.put(ScannerLogic());
     final state = logic.state;
 
-    Future.delayed(Duration.zero,()=>logic.refreshState());
+    Future.delayed(Duration.zero,()=>logic.refreshLocalInfo());
 
     return Scaffold(
         appBar: AppBar(
@@ -46,7 +46,7 @@ class ScannerAppBarTitle extends StatelessWidget {
         ),
         Expanded(
           child:
-              GetBuilder<ScannerLogic>(builder: (context) => state.localInfo),
+              GetBuilder<ScannerLogic>(builder: (context) => state.localInfoBox),
         )
       ],
     );

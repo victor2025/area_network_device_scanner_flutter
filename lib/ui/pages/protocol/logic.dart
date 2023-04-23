@@ -1,3 +1,4 @@
+import 'package:area_network_device_scanner/config/config_values.dart';
 import 'package:area_network_device_scanner/config/strings.dart';
 import 'package:area_network_device_scanner/config/values.dart';
 import 'package:area_network_device_scanner/ui/pages/markdown_alert/logic.dart';
@@ -32,8 +33,7 @@ class ProtocolLogic extends GetxController {
   }
 
   shownProtocol(){
-    ConfigValues.isProtocolShown = true;
-    SPUtil.save(PreferenceKeys.PROTOCOL, ConfigValues.isProtocolShown);
+    ConfigValues.CONFIG.saveProtocolStatus(true);
   }
 
   showUsageProtocol(BuildContext context){

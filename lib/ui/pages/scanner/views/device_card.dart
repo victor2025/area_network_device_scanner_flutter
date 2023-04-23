@@ -1,5 +1,5 @@
 import 'package:area_network_device_scanner/api/mac_api/mac_api.dart';
-import 'package:area_network_device_scanner/config/values.dart';
+import 'package:area_network_device_scanner/config/config_values.dart';
 import 'package:area_network_device_scanner/entity/mac_entity.dart';
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
 import 'package:area_network_device_scanner/ui/pages/scanner/logic.dart';
@@ -98,7 +98,7 @@ class DeviceCardContent extends StatelessWidget {
           child: ipRow,
         ),
         Expanded(
-            flex: 4,
+            flex: 3,
             child: Column(
               children: [
                 delayRow,
@@ -155,7 +155,7 @@ class DeviceCardMacInfo extends StatelessWidget {
     );
 
     // 公司名称
-    var companyRow = ConfigValues.showDeviceCompany
+    var companyRow = ConfigValues.CONFIG.showDeviceCompany
         ? Row(
       children: [
         Expanded(

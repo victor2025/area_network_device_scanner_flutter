@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:area_network_device_scanner/config/strings.dart';
-import 'package:area_network_device_scanner/entity/config_entity.dart';
+import 'package:area_network_device_scanner/config/config_values.dart';
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
 import 'package:area_network_device_scanner/entity/task_manager.dart';
 import 'package:area_network_device_scanner/utils/ip_utils.dart';
@@ -56,7 +56,6 @@ class PingApi {
     }
     // 等待所有扫描完成
     await Future.wait(futureList)
-        .timeout(Duration(milliseconds: ConfigEntity.CONFIG.scanTimeout))
         .catchError((e) => Future.value([]));
     // 关闭stream
     sc.close();
