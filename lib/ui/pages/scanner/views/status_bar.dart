@@ -4,6 +4,7 @@ import 'package:area_network_device_scanner/ui/pages/scanner/views/input_window.
 import 'package:area_network_device_scanner/ui/pages/setting/logic.dart';
 import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:area_network_device_scanner/utils/vibrate_utils.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 
@@ -79,6 +80,7 @@ class MainButton extends StatelessWidget {
       direction: SpeedDialDirection.right,
       spaceBetweenChildren: 4.0,
       spacing: 4.0,
+      onOpen: ()=>VibrateUtils.unitVibrate(),
       children: [
         SpeedDialChild(
           child: const Icon(Icons.edit),

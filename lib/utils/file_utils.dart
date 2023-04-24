@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:area_network_device_scanner/utils/codec_utils.dart';
 import 'package:flutter/services.dart';

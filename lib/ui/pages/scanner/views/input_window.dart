@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:area_network_device_scanner/ui/pages/scanner/logic.dart';
 import 'package:flutter/material.dart';
+import 'package:area_network_device_scanner/utils/vibrate_utils.dart';
 import 'package:get/get.dart';
 
 class InputPage extends StatelessWidget {
 
   static Future<T?> show<T>(BuildContext context) {
+    VibrateUtils.unitVibrate();
     return Navigator.of(context).push(
       PageRouteBuilder(
         // 关键
@@ -62,6 +64,7 @@ class InputPage extends StatelessWidget {
             width: double.infinity,
             child: TextButton.icon(
                 onPressed: () {
+                  VibrateUtils.unitVibrate();
                   Navigator.pop(context, logic.inputController.text);
                   logic.getInputAndStartScan();
                 },

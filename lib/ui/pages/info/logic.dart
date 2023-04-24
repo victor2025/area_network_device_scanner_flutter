@@ -6,6 +6,7 @@ import 'package:area_network_device_scanner/ui/pages/protocol/view.dart';
 import 'package:area_network_device_scanner/utils/file_utils.dart';
 import 'package:area_network_device_scanner/utils/sp_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:area_network_device_scanner/utils/vibrate_utils.dart';
 import 'package:get/get.dart';
 
 import 'state.dart';
@@ -14,6 +15,7 @@ class InfoLogic extends GetxController {
   final InfoState state = InfoState();
 
   static showInfoPage(BuildContext context) {
+    VibrateUtils.unitVibrate();
     showDialog(
         barrierDismissible: true, //点击空白是否退出
         context: context,

@@ -1,4 +1,5 @@
 import 'package:area_network_device_scanner/config/config_values.dart';
+import 'package:area_network_device_scanner/utils/vibrate_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'logics/scan_logic.dart';
@@ -23,45 +24,67 @@ class ScannerLogic extends GetxController {
     // 获取输入
     state.currInput = inputController.text;
     // 刷新
-    refreshState();
+    _refreshLogic();
     // 开始同步扫描
     _scanAsync(state.currInput);
     // 更新页面
     update();
+    VibrateUtils.unitVibrate();
   }
 
   stopScan(){
-    scanLogic.stopScan();
+    _stopScanLogic();
     update();
+    VibrateUtils.unitVibrate();
   }
 
   // 开始扫描
   reScan(){
-    refreshState();
+    _refreshLogic();
     _scanAsync(state.currInput);
     update();
+    VibrateUtils.unitVibrate();
   }
 
   // 刷新页面
   refreshState(){
-    state.refresh();
-    stopScan();
-    refreshLocalInfo();
+    _refreshLogic();
     update();
+    VibrateUtils.unitVibrate();
   }
 
   refreshLocalInfo(){
-    localInfoLogic.refreshLocalInfo();
+    _refreshLocalInfoLogic();
     update();
   }
 
-  // 刷新全部状态
   refreshAllState(){
+    _refreshAllStateLogic();
+    update();
+    VibrateUtils.unitVibrate();
+  }
+
+
+  _stopScanLogic(){
+    scanLogic.stopScan();
+  }
+
+  _refreshLogic(){
+    state.refresh();
+    _stopScanLogic();
+    _refreshLocalInfoLogic();
+  }
+
+  _refreshLocalInfoLogic(){
+    localInfoLogic.refreshLocalInfo();
+  }
+
+  // 刷新全部状态
+  _refreshAllStateLogic(){
     state.refreshAll();
     state.setStatus('allClearedStatus'.tr);
     inputController.text = "";
     localInfoLogic.refreshLocalInfo();
-    update();
   }
 
 
@@ -86,7 +109,7 @@ class ScannerLogic extends GetxController {
       if(ConfigValues.CONFIG.enableTimeout){
         Future.delayed(
             Duration(milliseconds: ConfigValues.CONFIG.scanTimeout)
-        ).then((value) => stopScan());
+        ).then((value) => _stopScanLogic());
       }
     }catch(e){
       // 将错误信息显示到状态中

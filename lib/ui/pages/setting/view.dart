@@ -1,7 +1,6 @@
 import 'package:area_network_device_scanner/config/values.dart';
 import 'package:area_network_device_scanner/ui/pages/setting/widgets/counter_widget.dart';
 import 'package:area_network_device_scanner/ui/widgets/const_widgets.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,9 +15,12 @@ class SettingPage extends StatelessWidget {
 
     final logic = Get.put(SettingLogic());
 
+    Future.delayed(Duration.zero, logic.refreshState());
+
     var cancelBtn = Center(
       child: ElevatedButton(
           onPressed: () {
+            logic.tapCancel();
             Navigator.of(context).pop(true);
           },
           child: Text('cancel'.tr)),

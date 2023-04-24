@@ -22,7 +22,7 @@ class ScanningRefreshBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () => logic.stopScan(),
+      onPressed: ()=>logic.stopScan(),
       child: const Icon(Icons.stop),
     );
   }
