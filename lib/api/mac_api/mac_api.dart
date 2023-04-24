@@ -1,5 +1,4 @@
 import 'package:area_network_device_scanner/api/arp_api/arp_api.dart';
-import 'package:area_network_device_scanner/config/values.dart';
 import 'package:area_network_device_scanner/config/config_values.dart';
 import 'package:area_network_device_scanner/entity/mac_entity.dart';
 import 'package:area_network_device_scanner/entity/task_manager.dart';
@@ -9,6 +8,8 @@ import 'package:area_network_device_scanner/utils/string_utils.dart';
 import 'package:http/http.dart' as http;
 
 class MacApi{
+
+  static final TaskManager _manager = TaskManager();
 
   static const String _MAC_QUERY_URL = "https://api.macvendors.com/";
 
@@ -35,15 +36,15 @@ class MacApi{
     // 生成url
     String url = _getMacQueryUrl(data);
     // 发起请求
-    await TaskManager.waitUntilAvailable();
+    await _manager.waitUntilAvailable(max: 3);
     String? respBody = await _queryUrlForName(url)
-        // .timeout(const Duration(milliseconds: 60000))
+        .timeout(const Duration(milliseconds: 60000))
         .catchError((e){
-          TaskManager.completeTask();
+          _manager.completeTask();
           return "errors";
         })
         .then((value){
-          TaskManager.completeTask();
+          _manager.completeTask();
           return Future.value(value);
         });
     // 解析respBody

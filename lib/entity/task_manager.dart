@@ -4,15 +4,15 @@ import 'package:flutter/foundation.dart';
 
 class TaskManager{
   // 当前后台任务数目
-  static int _currBackGroundTaskCnt = 0;
+  int _currBackGroundTaskCnt = 0;
 
   // 用来限制后台任务的数目
-  static bool _isAvailable(int maxCnt){
+  bool _isAvailable(int maxCnt){
     return _currBackGroundTaskCnt<maxCnt;
   }
 
   // 阻塞等待，直到有空闲
-  static waitUntilAvailable({int? max}) async{
+  waitUntilAvailable({int? max}) async{
     final int maxCnt = max??ConfigValues.CONFIG.maxBackGroundTaskCnt;
     while(!_isAvailable(maxCnt)){
       await ThreadUtils.sleep(10);
@@ -23,15 +23,15 @@ class TaskManager{
     _addTaskCnt();
   }
 
-  static void _addTaskCnt(){
+  void _addTaskCnt(){
     _currBackGroundTaskCnt++;
   }
 
-  static void completeTask(){
+  void completeTask(){
     _currBackGroundTaskCnt--;
   }
 
-  static void refresh(){
+  void refresh(){
     _currBackGroundTaskCnt = 0;
   }
 

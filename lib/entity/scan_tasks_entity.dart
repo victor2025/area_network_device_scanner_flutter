@@ -1,4 +1,3 @@
-import 'package:area_network_device_scanner/config/values.dart';
 import 'package:area_network_device_scanner/config/config_values.dart';
 import 'package:area_network_device_scanner/utils/ip_utils.dart';
 import 'package:area_network_device_scanner/utils/string_utils.dart';

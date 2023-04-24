@@ -64,15 +64,15 @@ class ScannerLogic extends GetxController {
     VibrateUtils.unitVibrate();
   }
 
-
-  _stopScanLogic(){
-    scanLogic.stopScan();
-  }
-
   _refreshLogic(){
     state.refresh();
     _stopScanLogic();
     _refreshLocalInfoLogic();
+  }
+
+
+  _stopScanLogic(){
+    scanLogic.stopScan();
   }
 
   _refreshLocalInfoLogic(){
@@ -97,13 +97,13 @@ class ScannerLogic extends GetxController {
       scanLogic.doScan();
       // 监听stream并刷新页面
       state.scanSub = state.scanStream
-          .listen((event) async{
+          .listen((event){
           state.updateDeviceResult(event);
           update();
       },
       onDone: (){
-          scanLogic.afterScan();
-          update();
+        scanLogic.afterScan();
+        update();
       });
       // scan timeout
       if(ConfigValues.CONFIG.enableTimeout){

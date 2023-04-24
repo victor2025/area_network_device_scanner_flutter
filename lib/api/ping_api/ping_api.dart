@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:area_network_device_scanner/config/strings.dart';
 import 'package:area_network_device_scanner/config/config_values.dart';
+import 'package:area_network_device_scanner/config/strings.dart';
 import 'package:area_network_device_scanner/entity/ping_entity.dart';
 import 'package:area_network_device_scanner/entity/task_manager.dart';
 import 'package:area_network_device_scanner/utils/ip_utils.dart';
@@ -10,6 +10,8 @@ import 'package:area_network_device_scanner/utils/network_utils.dart';
 import 'package:flutter/foundation.dart';
 
 class PingApi {
+  
+  static final TaskManager _manager = TaskManager();
 
   // 过滤不可达结果
   static Stream<PingResult> getAccessibleIpWithRange(String start, String end) {
@@ -45,13 +47,13 @@ class PingApi {
       // 获取当前ip地址
       String currIp = IpUtils.num2ip(i);
       // 阻塞等待，直到成功抢占
-      await TaskManager.waitUntilAvailable();
+      await _manager.waitUntilAvailable(max: ConfigValues.CONFIG.maxBackGroundTaskCnt);
       // 开始扫描
       futureList.add(_isIpAccessible(currIp).then((value) {
         sc.sink.add(value);
-        TaskManager.completeTask();
+        _manager.completeTask();
       }).onError((error, stackTrace) {
-        TaskManager.completeTask();
+        _manager.completeTask();
       }));
     }
     // 等待所有扫描完成
@@ -73,6 +75,9 @@ class PingApi {
         break;
       default:
         res = await NetworkUtils.isAddressAccessible(ip, count: count);
+    }
+    if (kDebugMode) {
+      // print(res);
     }
     return res;
   }
