@@ -70,7 +70,7 @@
 
 - 为保障您的知情权，我们通过下列列表将产品可能申请、使用的相关操作系统权限进行展示，您可以根据实际需要对相关权限进行管理；
 
-- 权限名称与使用场景：
+- 权限名称与用途：
     - android.permission.ACCESS_WIFI_STATE： 获取WiFi状态和本地ip地址
     - android.permission.ACCESS_NETWORK_STATE：访问网络状态以获取扫描条件
     - android.permission.INTERNET：访问网络以查询设备厂商信息
