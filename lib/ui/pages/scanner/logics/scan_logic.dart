@@ -70,8 +70,8 @@ class ScanLogic {
     while (tasks.hasNextTask()) {
       ScanTaskItem? task = tasks.getNextTask();
       if (task == null) break;
-      StreamSubscription<PingResult> ss =
-          PingApi.getAccessibleIpWithRange(task.start, task.end).listen(
+      Stream<PingResult> s = PingApi.getAccessibleIpWithRange(task.start, task.end);
+      StreamSubscription<PingResult> ss =s.listen(
         (event) {
           sc.sink.add(event);
         },
@@ -80,6 +80,7 @@ class ScanLogic {
           if (--taskCnt == 0) sc.close();
         },
       );
+      // transfer through stream
       subList.add(ss);
     }
   }

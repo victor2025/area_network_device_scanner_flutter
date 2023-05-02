@@ -50,7 +50,7 @@ class PingApi {
       await _manager.waitUntilAvailable(max: ConfigValues.CONFIG.maxBackGroundTaskCnt);
       // 开始扫描
       futureList.add(_isIpAccessible(currIp).then((value) {
-        sc.sink.add(value);
+        if(!sc.isClosed)sc.sink.add(value);
         _manager.completeTask();
       }).onError((error, stackTrace) {
         _manager.completeTask();
@@ -75,9 +75,6 @@ class PingApi {
         break;
       default:
         res = await NetworkUtils.isAddressAccessible(ip, count: count);
-    }
-    if (kDebugMode) {
-      // print(res);
     }
     return res;
   }

@@ -11,13 +11,12 @@ class MacApi{
 
   static final TaskManager _manager = TaskManager();
 
-  static const String _MAC_QUERY_URL = "";
+  static const String _MAC_QUERY_URL = "https://api.macvendors.com/";
 
   static Future<MacResult> getMacResultByIp(String ip) async{
     MacResult data = await _getMacFromArp(ip);
     // 若关闭公司查询功能，则不再查询
     return data;
-    return ConfigValues.CONFIG.showDeviceCompany?await _getDeviceNameByMac(data):data;
   }
 
   static Future<MacResult> getMacResultWithCompany(MacResult data){
@@ -26,7 +25,7 @@ class MacApi{
 
   // 从arp列表中获取mac地址
   static Future<MacResult> _getMacFromArp(String ip) async{
-    final Map<String,String> arp = await ArpApi.getArpCache();
+    final Map<String,String> arp = await ArpApi.loadArpCache();
     String? mac = arp[ip];
     return mac==null?MacResult.unknownResult(ip):MacResult.withoutNameResult(ip, mac.toUpperCase());
   }

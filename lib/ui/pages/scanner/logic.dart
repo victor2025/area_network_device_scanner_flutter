@@ -109,7 +109,10 @@ class ScannerLogic extends GetxController {
       if(ConfigValues.CONFIG.enableTimeout){
         Future.delayed(
             Duration(milliseconds: ConfigValues.CONFIG.scanTimeout)
-        ).then((value) => _stopScanLogic());
+        ).then((value){
+          _stopScanLogic();
+          update();
+        });
       }
     }catch(e){
       // 将错误信息显示到状态中

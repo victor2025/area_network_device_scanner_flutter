@@ -13,7 +13,7 @@ class CommandRunner {
       args = cmdList.sublist(1, cmdList.length);
     }
     // 开始执行
-    var process = await Process.run(cmd, args).catchError((e) => print('$e'));
+    var process = await Process.run(cmd, args);
     return process.stdout;
   }
 }

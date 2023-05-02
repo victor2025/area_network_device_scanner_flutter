@@ -39,6 +39,7 @@ dependencies:
   # logic
   dart_ping: ^8.0.0
   dart_ping_ios: ^3.0.0
+  arp_cache_loader: 1.0.0
 
   # durability
   shared_preferences: ^2.0.13
