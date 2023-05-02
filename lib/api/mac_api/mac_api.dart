@@ -11,7 +11,7 @@ class MacApi{
 
   static final TaskManager _manager = TaskManager();
 
-  static const String _MAC_QUERY_URL = "https://api.macvendors.com/";
+  static const String _MAC_QUERY_URL = "";
 
   static Future<MacResult> getMacResultByIp(String ip) async{
     MacResult data = await _getMacFromArp(ip);
