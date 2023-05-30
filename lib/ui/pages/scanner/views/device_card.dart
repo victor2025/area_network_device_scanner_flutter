@@ -157,28 +157,20 @@ class DeviceCardMacInfo extends StatelessWidget {
 
     // 公司名称
     var companyRow = ConfigValues.CONFIG.showDeviceCompany
-        ? Row(
+        ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Expanded(
-        //     flex: 1,
-        //     child: Text(
-        //       "${'company'.tr}:",
-        //       style: titleStyle,
-        //     )),
-        Expanded(
-          flex: 2,
-          child: _getCompanyFutureBuilder(data),
+        const SizedBox(
+          height: 5,
         ),
+        const Divider(height: 2,),
+        _getCompanyFutureBuilder(data),
       ],
     ) : ConstWidgets.EMPTY;
 
     return Column(
       children: [
         macRow,
-        const SizedBox(
-          height: 5,
-        ),
-        const Divider(height: 2,),
         companyRow,
       ],
     );
