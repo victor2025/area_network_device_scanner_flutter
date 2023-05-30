@@ -36,7 +36,7 @@ class ConfigValues{
     initProtocolStatus();
     initLanguage();
     SPUtil.getBool(PreferenceKeys.COMPANY_KEY).then((value) => CONFIG.showDeviceCompany = value??false);
-    CONFIG.showFullCompanyName = false;
+    CONFIG.showFullCompanyName = true;
     SPUtil.getInt(PreferenceKeys.TASK_CNT_KEY).then((value) => CONFIG.maxBackGroundTaskCnt = value??64);
     SPUtil.getBool(PreferenceKeys.ENABLE_TIMEOUT_KEY).then((value) => CONFIG.enableTimeout = value??true);
     SPUtil.getInt(PreferenceKeys.SCAN_TIMEOUT_KEY).then((value) => CONFIG.scanTimeout = value??30000);

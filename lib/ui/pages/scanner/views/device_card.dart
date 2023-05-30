@@ -9,9 +9,10 @@ import 'package:get/get.dart';
 
 final state = Get.find<ScannerLogic>().state;
 
-const TextStyle titleStyle = TextStyle(fontSize: 12, color: Colors.grey);
+const TextStyle titleStyle = TextStyle(fontSize: 11, color: Colors.grey);
 const TextAlign titleAlign = TextAlign.right;
-const TextStyle contentStyle = TextStyle(fontSize: 12);
+const TextStyle contentStyle = TextStyle(fontSize: 11);
+const TextStyle companyStyle = TextStyle(fontSize: 8);
 const EdgeInsets cardMargin = EdgeInsets.fromLTRB(6, 2, 6, 2);
 
 // 带编号的设备卡片
@@ -98,7 +99,7 @@ class DeviceCardContent extends StatelessWidget {
           child: ipRow,
         ),
         Expanded(
-            flex: 3,
+            flex: 4,
             child: Column(
               children: [
                 delayRow,
@@ -158,12 +159,12 @@ class DeviceCardMacInfo extends StatelessWidget {
     var companyRow = ConfigValues.CONFIG.showDeviceCompany
         ? Row(
       children: [
-        Expanded(
-            flex: 1,
-            child: Text(
-              "${'company'.tr}:",
-              style: titleStyle,
-            )),
+        // Expanded(
+        //     flex: 1,
+        //     child: Text(
+        //       "${'company'.tr}:",
+        //       style: titleStyle,
+        //     )),
         Expanded(
           flex: 2,
           child: _getCompanyFutureBuilder(data),
@@ -174,6 +175,10 @@ class DeviceCardMacInfo extends StatelessWidget {
     return Column(
       children: [
         macRow,
+        const SizedBox(
+          height: 5,
+        ),
+        const Divider(height: 2,),
         companyRow,
       ],
     );
@@ -188,7 +193,7 @@ class DeviceCardMacInfo extends StatelessWidget {
         }
         return SelectableText(
           data.name,
-          style: contentStyle,
+          style: companyStyle,
         );
       },
     );

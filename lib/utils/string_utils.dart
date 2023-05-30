@@ -11,11 +11,10 @@ class StringUtils{
 
   static String parseCompanyName(String input){
     if(ConfigValues.CONFIG.showFullCompanyName){
-      input = input.replaceAll(".","")
-          .replaceAll(",", "")
-          .replaceAll(RegExp("(Co Ltd)|(CO LTD)|(COLTD)|CoLtd"), "")
-          .replaceAll("TECHNOLOGIES", "Technologies")
-          .trim();
+      // input = input.replaceAll(".","")
+      //     .replaceAll(",", "")
+      //     .replaceAll(RegExp("(Co Ltd)|(CO LTD)|(COLTD)|CoLtd"), "")
+      //     .trim();
     }else{
       input = input.split(" ")[0];
     }
